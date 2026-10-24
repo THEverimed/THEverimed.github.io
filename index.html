@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verimed — الإجابة الموثوقة لاختبار SMLE</title>
+<meta name="description" content="اسأل عن أي سؤال أو حالة، ونقارن لك إجابات المراجع وبنوك الأسئلة ونعطيك الإجابة الموثّقة مع مصدرها.">
+<meta name="theme-color" content="#2E7D7B" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1E2A38" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Verimed">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://script.google.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&family=Inter:wght@400;500&family=Poppins:wght@600&family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+/* ═════════ الهوية: الألوان والخطوط والانحناءات (كل التصميم يتغير من هنا) ═════════ */
+:root{
+  --primary:#2E7D7B; --primary-ink:#FFFFFF; --primary-soft:#E3F0EE;
+  --secondary:#4F7195; --accent:#A7C4A0;
+  --bg:#F8F9F7; --surface:#FFFFFF; --surface-2:#F1F4F2; --line:#E3E8E5;
+  --text:#2D3A4A; --muted:#667385;
+  --ok:#4A8062; --ok-soft:#E5F0E9; --bad:#A35D62; --bad-soft:#F6E8E9;
+  --r-sm:12px; --r:18px; --r-lg:26px; --pill:999px;
+  --shadow:0 1px 2px rgba(45,58,74,.05),0 8px 24px rgba(45,58,74,.06);
+  --shadow-up:0 2px 4px rgba(45,58,74,.06),0 16px 36px rgba(45,58,74,.10);
+  --font-body:'Inter','Cairo',system-ui,sans-serif;
+  --font-head:'Poppins','Tajawal',system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --primary:#5FB3A8; --primary-ink:#10202A; --primary-soft:#21403F;
+  --secondary:#7BA6C9; --accent:#93B892;
+  --bg:#1E2A38; --surface:#243344; --surface-2:#2A3A4C; --line:#33465A;
+  --text:#E6EAF1; --muted:#A3B0C0;
+  --ok:#6ECF9A; --ok-soft:#203E33; --bad:#E89A9A; --bad-soft:#43303A;
+  --shadow:0 1px 2px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.18);
+  --shadow-up:0 2px 4px rgba(0,0,0,.25),0 16px 36px rgba(0,0,0,.28);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --primary:#5FB3A8; --primary-ink:#10202A; --primary-soft:#21403F;
+  --secondary:#7BA6C9; --accent:#93B892;
+  --bg:#1E2A38; --surface:#243344; --surface-2:#2A3A4C; --line:#33465A;
+  --text:#E6EAF1; --muted:#A3B0C0;
+  --ok:#6ECF9A; --ok-soft:#203E33; --bad:#E89A9A; --bad-soft:#43303A;
+  --shadow:0 1px 2px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.18);
+  --shadow-up:0 2px 4px rgba(0,0,0,.25),0 16px 36px rgba(0,0,0,.28);
+  color-scheme:dark;
+}
+
+/* ═════════ الأساس ═════════ */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:400 16px/1.7 var(--font-body);min-height:100vh;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
+  transition:background .3s var(--ease),color .3s var(--ease)}
+h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;line-height:1.35;margin:0 0 .4em;letter-spacing:-.005em}
+h1{font-size:clamp(28px,6vw,46px)} h2{font-size:clamp(22px,4.4vw,32px)} h3{font-size:19px}
+p{margin:0 0 1em}
+a{color:var(--primary);text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+img{display:block;max-width:100%}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.muted{color:var(--muted)}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 20px}
+.narrow{max-width:460px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--primary) 45%,transparent);outline-offset:2px;border-radius:var(--r-sm)}
+.ic{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ═════════ الشريط العلوي ═════════ */
+.announce{background:var(--primary);color:var(--primary-ink);text-align:center;font-size:14px;padding:8px 16px}
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s}
+.top.scrolled{border-bottom-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:64px}
+.brand{display:flex;align-items:center;height:36px}
+.brand img{height:36px;width:auto}
+.logo-dark{display:none}
+:root[data-theme="dark"] .logo-light{display:none} :root[data-theme="dark"] .logo-dark{display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-light{display:none}:root:not([data-theme="light"]) .logo-dark{display:block}}
+.top .grow{flex:1}
+.top nav{display:flex;gap:4px}
+.top nav a{color:var(--text);padding:8px 14px;border-radius:var(--pill);font-size:15px;transition:background .2s}
+.top nav a:hover,.top nav a.on{background:var(--surface-2)}
+.icon-btn{width:42px;height:42px;border-radius:var(--pill);border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--text);transition:background .2s}
+.icon-btn:hover{background:var(--surface-2)}
+@media (max-width:760px){.top nav{display:none}}
+
+/* ═════════ الأزرار والحقول ═════════ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:var(--pill);
+  border:1.5px solid transparent;font-weight:600;font-family:var(--font-body);font-size:16px;cursor:pointer;
+  transition:transform .15s var(--ease),background .2s,box-shadow .2s,opacity .2s;user-select:none;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--primary);color:var(--primary-ink);box-shadow:0 6px 18px color-mix(in srgb,var(--primary) 28%,transparent)}
+.btn.primary:hover{box-shadow:0 8px 24px color-mix(in srgb,var(--primary) 36%,transparent)}
+.btn.ghost{background:var(--surface);border-color:var(--line);color:var(--text)}
+.btn.ghost:hover{border-color:color-mix(in srgb,var(--primary) 40%,var(--line))}
+.btn.soft{background:var(--primary-soft);color:var(--primary)}
+.btn.link{background:none;border:0;color:var(--primary);min-height:auto;padding:6px 8px}
+.btn.block{width:100%}
+.btn.sm{min-height:40px;padding:0 16px;font-size:14px}
+.btn[disabled]{opacity:.55;pointer-events:none}
+.btn .spin{width:18px;height:18px;border-radius:50%;border:2.5px solid currentColor;border-right-color:transparent;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.field{display:block;margin-bottom:16px}
+.field>span{display:block;font-size:14px;font-weight:600;margin-bottom:7px}
+.input{width:100%;min-height:52px;padding:0 16px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--surface);
+  transition:border-color .2s,box-shadow .2s;outline:none;-webkit-appearance:none;appearance:none}
+.input:focus{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 14%,transparent)}
+.input.err{border-color:var(--bad)}
+select.input{padding-left:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23667385' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;cursor:pointer}
+.pw{position:relative}
+.pw .input{padding-left:50px}
+.pw button{position:absolute;left:6px;top:50%;transform:translateY(-50%)}
+.hint{font-size:13px;color:var(--muted);margin-top:6px}
+.hint.err{color:var(--bad)}
+.hint button{background:none;border:0;color:var(--primary);font-weight:600;cursor:pointer;padding:0}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--surface-2);padding:5px;border-radius:var(--pill)}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0}
+.seg span{display:block;text-align:center;padding:11px;border-radius:var(--pill);cursor:pointer;font-weight:600;color:var(--muted);transition:all .2s var(--ease)}
+.seg input:checked+span{background:var(--surface);color:var(--primary);box-shadow:var(--shadow)}
+.seg input:focus-visible+span{outline:3px solid color-mix(in srgb,var(--primary) 45%,transparent)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer;margin:6px 0 18px}
+.check input{appearance:none;-webkit-appearance:none;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);background:var(--surface);flex:none;margin:1px 0 0;cursor:pointer;display:grid;place-items:center;transition:all .2s}
+.check input:checked{background:var(--primary);border-color:var(--primary)}
+.check input:checked::after{content:"";width:6px;height:11px;border:solid var(--primary-ink);border-width:0 2.4px 2.4px 0;border-radius:1px;transform:rotate(45deg) translate(-1px,-1px)}
+.otp{display:flex;gap:8px;justify-content:center;direction:ltr;margin:8px 0 18px}
+.otp input{width:48px;height:58px;text-align:center;font:600 24px var(--font-head);border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--surface);outline:none;transition:border-color .2s,box-shadow .2s}
+.otp input:focus{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 14%,transparent)}
+@media (max-width:380px){.otp input{width:42px;height:52px}}
+
+/* ═════════ البطاقات ═════════ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
+.card.lift{transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.card.lift:hover{transform:translateY(-3px);box-shadow:var(--shadow-up)}
+.tile{width:48px;height:48px;border-radius:15px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;margin-bottom:14px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--pill);font-size:13px;font-weight:600;background:var(--primary-soft);color:var(--primary)}
+.badge.ok{background:var(--ok-soft);color:var(--ok)} .badge.bad{background:var(--bad-soft);color:var(--bad)}
+.grid{display:grid;gap:16px}
+@media (min-width:700px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+
+/* ═════════ الصفحات والانتقال ═════════ */
+main{min-height:calc(100vh - 64px);padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.view{animation:enter .38s var(--ease) both}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.section{padding:56px 0}
+.section-head{text-align:center;max-width:620px;margin:0 auto 32px}
+.page-head{padding:34px 0 18px}
+.auth{padding:36px 0 40px}
+.auth .card{padding:28px 24px}
+.auth h1{font-size:28px}
+
+/* الرئيسية */
+.hero{padding:44px 0 28px;text-align:center}
+.hero .kicker{margin-bottom:18px}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:620px;margin:0 auto 26px}
+.hero .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero .note{font-size:13px;color:var(--muted);margin-top:14px}
+.demo{margin:38px auto 0;max-width:760px;text-align:right;padding:0;overflow:hidden}
+.demo-q{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+.demo-q .tile{width:38px;height:38px;border-radius:12px;margin:0}
+.demo-q p{margin:0;font-family:Inter,sans-serif;direction:ltr;text-align:left;flex:1;font-size:15px}
+.steps-live{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}
+.steps-live span{display:inline-flex;align-items:center;gap:6px}
+.steps-live .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl td{padding:12px 22px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{color:var(--muted);width:38%;font-weight:600}
+.tbl .final td{background:var(--ok-soft)}
+.tbl .final td:last-child{color:var(--ok);font-weight:600}
+.demo-label{display:block;text-align:center;font-size:12px;color:var(--muted);padding:10px;background:var(--surface-2)}
+.how{counter-reset:s}
+.how .card{position:relative;padding-top:26px}
+.how .num{font:600 14px var(--font-head);color:var(--primary);margin-bottom:8px;display:block}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:box-shadow .2s}
+.faq details[open]{box-shadow:var(--shadow)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:600;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .ic{transition:transform .25s var(--ease);color:var(--muted)}
+.faq details[open] summary .ic{transform:rotate(180deg)}
+.faq details p{padding:0 20px 18px;margin:0;color:var(--muted)}
+
+/* الأسعار */
+.plans{display:grid;gap:16px}
+@media (min-width:700px){.plans{grid-template-columns:repeat(2,1fr)}}@media (min-width:1000px){.plans{grid-template-columns:repeat(4,1fr)}}
+.plan{display:flex;flex-direction:column;position:relative}
+.plan.best{border:2px solid var(--primary)}
+.plan .tag{position:absolute;top:-13px;right:20px}
+.plan .price{font:600 42px/1 var(--font-head);margin:14px 0 4px}
+.plan .price small{font:500 16px var(--font-body);color:var(--muted)}
+.plan ul{list-style:none;padding:0;margin:16px 0 22px;flex:1}
+.plan li{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:15px}
+.plan li .ic{color:var(--ok);width:20px;height:20px;margin-top:3px}
+
+/* لوحة الطالب */
+.hello{padding:28px 0 8px}
+.balance{background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary) 70%,var(--secondary)));color:#fff;border:0;position:relative;overflow:hidden}
+:root[data-theme="dark"] .balance{color:var(--primary-ink)}
+.balance::after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.08);left:-60px;top:-90px}
+.balance .big{font:600 56px/1 var(--font-head);margin:8px 0}
+.balance .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1}
+.balance .chip{background:rgba(255,255,255,.16);padding:6px 14px;border-radius:var(--pill);font-size:14px}
+.balance .btn{background:#fff;color:#1F5E5C;margin-top:20px;position:relative;z-index:1}
+.list-row{display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--text);background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:right}
+.list-row:last-child{border-bottom:0}
+.list-row .grow{flex:1}
+.code-box{display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:var(--r-sm);padding:10px 10px 10px 16px;margin-top:12px}
+.code-box b{flex:1;font:600 20px var(--font-head);letter-spacing:2px;direction:ltr;text-align:left}
+
+/* التنقل السفلي للجوال */
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:color-mix(in srgb,var(--surface) 90%,transparent);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);
+  display:none;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+.tabbar.show{display:grid;grid-template-columns:repeat(4,1fr)}
+.tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--muted);padding:6px 0;border-radius:var(--r-sm);transition:color .2s}
+.tabbar a.on{color:var(--primary);font-weight:600}
+@media (min-width:761px){.tabbar.show{display:none}}
+
+/* التذييل */
+footer{border-top:1px solid var(--line);padding:32px 0 calc(40px + env(safe-area-inset-bottom));font-size:14px;color:var(--muted)}
+footer .links{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
+footer .links a{color:var(--muted)} footer .links a:hover{color:var(--primary)}
+footer img{height:30px}
+
+/* الإشعارات والنوافذ */
+.toasts{position:fixed;top:76px;left:0;right:0;z-index:80;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 16px}
+.toast{background:var(--text);color:var(--bg);padding:12px 20px;border-radius:var(--pill);box-shadow:var(--shadow-up);font-size:15px;max-width:520px;animation:toast .35s var(--ease) both;display:flex;gap:8px;align-items:center}
+.toast.ok{background:var(--ok);color:#fff} .toast.bad{background:var(--bad);color:#fff}
+@keyframes toast{from{opacity:0;transform:translateY(-10px) scale(.97)}}
+.sheet-bg{position:fixed;inset:0;z-index:90;background:rgba(20,30,40,.42);display:flex;align-items:flex-end;justify-content:center;animation:fade .25s both}
+@keyframes fade{from{opacity:0}}
+.sheet{background:var(--surface);width:100%;max-width:520px;border-radius:var(--r-lg) var(--r-lg) 0 0;padding:14px 22px calc(24px + env(safe-area-inset-bottom));animation:up .35s var(--ease) both;max-height:90vh;overflow:auto}
+.sheet .grab{width:42px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 16px}
+@keyframes up{from{transform:translateY(100%)}}
+@media (min-width:600px){.sheet-bg{align-items:center}.sheet{border-radius:var(--r-lg)}}
+.offline{position:fixed;bottom:calc(84px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:70;background:var(--text);color:var(--bg);padding:10px 18px;border-radius:var(--pill);font-size:14px;display:none}
+.offline.show{display:block;animation:toast .3s both}
+
+/* هياكل التحميل */
+.sk{background:linear-gradient(90deg,var(--surface-2),color-mix(in srgb,var(--surface-2) 50%,var(--surface)),var(--surface-2));background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:var(--r-sm)}
+@keyframes sk{to{background-position:-200% 0}}
+.splash{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:100;transition:opacity .35s}
+.splash img{width:64px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.5;transform:scale(.94)}}
+.legal p{white-space:pre-line}
+/* ═════════ ضيافة أول دخول: الدلة تصب القهوة ═════════ */
+.welcome{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;
+  background:color-mix(in srgb,var(--bg) 70%,rgba(20,30,40,.55));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fade .35s both}
+.welcome .card{max-width:420px;width:100%;text-align:center;padding:26px 22px 24px;border-radius:var(--r-lg);animation:up .5s var(--ease) both}
+.welcome svg{width:100%;max-width:360px;height:auto;margin:0 auto 6px;display:block;overflow:visible}
+.welcome .txt{opacity:0;animation:rise .6s var(--ease) 3.4s forwards}
+.welcome h2{margin-bottom:6px}
+.welcome p{color:var(--muted);font-size:17px;margin-bottom:20px}
+.welcome .free{color:var(--primary);font-weight:600}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.vmDallah{transform-box:view-box;transform-origin:300px 190px;animation:vmTilt 3.6s cubic-bezier(.45,.05,.3,1) .3s both}
+@keyframes vmTilt{0%{transform:none}24%,68%{transform:translateY(-12px) rotate(-40deg)}100%{transform:none}}
+.vmStream{stroke-dasharray:80;stroke-dashoffset:80;animation:vmPour 3.6s linear .3s both}
+@keyframes vmPour{0%,24%{stroke-dashoffset:80;opacity:1}31%{stroke-dashoffset:0}62%{stroke-dashoffset:0;opacity:1}68%,100%{stroke-dashoffset:-80;opacity:0}}
+.vmCoffee{transform-box:view-box;animation:vmFill 3.6s ease-out .3s both}
+@keyframes vmFill{0%,27%{transform:translateY(24px)}66%,100%{transform:none}}
+.vmSteam path{opacity:0;animation:vmSteam 2.8s ease-in-out infinite}
+.vmSteam path:nth-child(1){animation-delay:3.3s}.vmSteam path:nth-child(2){animation-delay:3.8s}.vmSteam path:nth-child(3){animation-delay:4.3s}
+@keyframes vmSteam{0%{opacity:0;transform:translateY(5px)}35%{opacity:.75}100%{opacity:0;transform:translateY(-14px)}}
+@media (prefers-reduced-motion:reduce){.welcome .txt{opacity:1}.vmCoffee{transform:none}.vmStream{opacity:0}}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="splash" id="splash"><img src="favicon.svg" alt=""></div>
+<div id="announce"></div>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#/" aria-label="Verimed">
+      <img class="logo-light" src="logo.svg" alt="Verimed" width="150" height="36">
+      <img class="logo-dark" src="logo-dark.svg" alt="Verimed" width="150" height="36">
+    </a>
+    <div class="grow"></div>
+    <nav id="topnav"></nav>
+    <button class="icon-btn" id="themeBtn" aria-label="تبديل الوضع الليلي"></button>
+    <div id="topAction"></div>
+  </div>
+</header>
+<main id="app"></main>
+<nav class="tabbar" id="tabbar"></nav>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="offline" id="offline">لا يوجد اتصال بالإنترنت</div>
+
+<script>
+/* ═════════════════════ أيقونات خطية بأطراف دائرية ═════════════════════ */
+const ICONS = {
+  check:'<path d="M5 12.5l4.2 4.2L19 7"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
+  book:'<path d="M5 4.5h9.5A3.5 3.5 0 0 1 18 8v11.5H8.5A3.5 3.5 0 0 1 5 16z"/><path d="M5 16a3.5 3.5 0 0 1 3.5-3.5H18"/>',
+  layers:'<path d="m12 4 8 4.5-8 4.5-8-4.5z"/><path d="m4 13 8 4.5 8-4.5"/>',
+  compare:'<path d="M8 5v14M16 5v14"/><path d="M4 9h8M12 15h8"/>',
+  star:'<path d="m12 4 2.4 4.9 5.3.8-3.9 3.7.9 5.3L12 16.2l-4.7 2.5.9-5.3-3.9-3.7 5.3-.8z"/>',
+  shield:'<path d="M12 3.5 19 6v5.5c0 4.3-3 7.8-7 9-4-1.2-7-4.7-7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
+  bolt:'<path d="M13 3.5 6 13h5.5L11 20.5 18 11h-5.5z"/>',
+  home:'<path d="M4.5 10.5 12 4.5l7.5 6V19a1.5 1.5 0 0 1-1.5 1.5h-3.5v-6h-5v6H6A1.5 1.5 0 0 1 4.5 19z"/>',
+  chat:'<path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 3.5V16h0A1.5 1.5 0 0 1 5 14.5z"/>',
+  tag:'<path d="M4 12.5V5.5A1.5 1.5 0 0 1 5.5 4h7l7.5 7.5-8.5 8.5z"/><circle cx="8.5" cy="8.5" r="1.3"/>',
+  user:'<circle cx="12" cy="8.5" r="3.8"/><path d="M5 19.5c1.3-3.2 4-4.8 7-4.8s5.7 1.6 7 4.8"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 3v1.5M12 19.5V21M3 12h1.5M19.5 12H21M5.6 5.6l1.1 1.1M17.3 17.3l1.1 1.1M5.6 18.4l1.1-1.1M17.3 6.7l1.1-1.1"/>',
+  moon:'<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  eyeOff:'<path d="M3.5 3.5l17 17"/><path d="M10.6 6A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17 17 0 0 1-2.6 3.4M6.6 7.1C4 8.7 2.5 12 2.5 12S6 18.5 12 18.5c1.5 0 2.8-.4 4-1"/><path d="M9.9 10a3 3 0 0 0 4.2 4.1"/>',
+  chevron:'<path d="m6 9 6 6 6-6"/>',
+  back:'<path d="m10 6 6 6-6 6"/>',
+  copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5A2 2 0 0 0 13.5 4.5h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>',
+  share:'<circle cx="17.5" cy="6" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="17.5" cy="18" r="2.5"/><path d="m8.7 10.8 6.6-3.6M8.7 13.2l6.6 3.6"/>',
+  logout:'<path d="M14 4.5h3.5A2 2 0 0 1 19.5 6.5v11a2 2 0 0 1-2 2H14"/><path d="M10 8 6 12l4 4M6 12h9"/>',
+  phone:'<rect x="7" y="3" width="10" height="18" rx="3"/><path d="M11 17.5h2"/>',
+  doc:'<path d="M7 3.5h6.5L18 8v12.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z"/><path d="M13 3.5V8h5M9 13h6M9 16.5h4"/>',
+  clock:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4.5l3 1.8"/>',
+  gift:'<rect x="4" y="9" width="16" height="11" rx="2"/><path d="M4 13h16M12 9v11"/><path d="M12 9C10 9 7.5 8 7.5 6.2S10 4 12 9c2-5 4.5-4.6 4.5-2.8S14 9 12 9z"/>',
+  mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 5.5L19.5 7"/>'
+};
+const ic = (n, cls='') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`;
+
+/* ═════════════════════ أدوات ═════════════════════ */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k, d=null){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+const S = { boot: store.get('vm_boot'), token: store.get('vm_token'), pendingEmail: store.get('vm_pending_email', '') };
+const API = window.VERIMED_API || '';
+const apiReady = /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(API) || /^http:\/\/localhost/.test(API);
+const fmt = n => Number(n || 0).toLocaleString('en-US');
+const user = () => S.boot && S.boot.user;
+const G = (m, f) => (user() && user().gender === 'F') ? f : m;  // صياغة حسب الجنس
+const firstName = () => (user() ? String(user().name).trim().split(/\s+/)[0] : '');
+const C = k => (S.boot && S.boot.content && S.boot.content[k]) || '';
+
+/* ═════════════════════ الاتصال بالخادم ═════════════════════ */
+const READS = new Set(['bootstrap','me','getPackages','quotePrice']);
+async function api(action, payload={}, tries){
+  if (!apiReady) return { ok:false, error:'رابط الخادم غير مضبوط في config.js', code:'NO_API' };
+  tries = tries ?? (READS.has(action) ? 2 : 1);
+  const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 30000);
+  try {
+    const res = await fetch(API, { method:'POST', redirect:'follow', signal:ctrl.signal,
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action, payload, token: S.token || '' }) });
+    const data = await res.json();
+    if (!data.ok && data.code === 'AUTH' && S.token) { signOut(true); }
+    return data;
+  } catch (e) {
+    if (tries > 1) { await new Promise(r => setTimeout(r, 700)); return api(action, payload, tries - 1); }
+    return { ok:false, error: navigator.onLine ? 'تعذّر الاتصال بالخادم، حاول مرة ثانية' : 'لا يوجد اتصال بالإنترنت', code:'NETWORK' };
+  } finally { clearTimeout(t); }
+}
+
+function saveBoot(b){ S.boot = b; store.set('vm_boot', b); }
+function setSession(token, userObj, balance){
+  S.token = token; store.set('vm_token', token);
+  saveBoot({ ...(S.boot || {}), user: userObj, balance });
+}
+function signOut(expired){
+  if (!expired && S.token) api('logout');
+  S.token = null; store.del('vm_token');
+  if (S.boot) saveBoot({ ...S.boot, user:null, balance:null });
+  if (expired) toast('انتهت الجلسة، سجّل الدخول من جديد. الحساب يعمل على جهاز واحد في نفس الوقت', 'bad', 5000);
+  go(expired ? '#/login' : '#/');
+}
+
+async function refresh(){
+  const r = await api('bootstrap');
+  if (!r.ok) { if (!S.boot) renderError(r.error); return; }
+  if (r.data.sessionExpired && S.token) { S.token = null; store.del('vm_token'); toast('انتهت الجلسة، سجّل الدخول من جديد', 'bad'); }
+  const before = JSON.stringify(S.boot);
+  saveBoot(r.data);
+  if (JSON.stringify(S.boot) !== before) render(true);
+}
+
+/* ═════════════════════ واجهة عامة ═════════════════════ */
+function toast(msg, kind='', ms=3200){
+  const el = document.createElement('div');
+  el.className = 'toast ' + kind; el.textContent = msg;
+  $('#toasts').append(el);
+  setTimeout(() => { el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(() => el.remove(), 300); }, ms);
+}
+function sheet(html){
+  const bg = document.createElement('div'); bg.className = 'sheet-bg';
+  bg.innerHTML = `<div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;
+  bg.addEventListener('click', e => { if (e.target === bg) bg.remove(); });
+  document.body.append(bg);
+  const close = () => bg.remove();
+  $$('[data-close]', bg).forEach(b => b.onclick = close);
+  return { el: bg, close };
+}
+function busy(btn, on){
+  if (!btn) return;
+  if (on){ btn.dataset.label = btn.innerHTML; btn.innerHTML = '<span class="spin"></span>'; btn.disabled = true; }
+  else { btn.innerHTML = btn.dataset.label || btn.innerHTML; btn.disabled = false; }
+}
+function fieldError(input, msg){
+  const f = input.closest('.field') || input.parentElement;
+  let h = $('.hint.err', f);
+  input.classList.toggle('err', !!msg);
+  if (!msg){ if (h) h.remove(); return; }
+  if (!h){ h = document.createElement('div'); h.className = 'hint err'; f.append(h); }
+  h.textContent = msg;
+}
+function formError(form, msg){
+  let el = $('.form-error', form);
+  if (!msg){ if (el) el.remove(); return; }
+  if (!el){ el = document.createElement('div'); el.className = 'form-error badge bad'; el.style.cssText='display:flex;margin-bottom:14px;padding:10px 14px;border-radius:12px;font-weight:500'; form.prepend(el); }
+  el.textContent = msg;
+}
+
+/* ضيافة أول دخول: دلة تصب قهوة عربية في فنجال، مع تمر */
+const tpl = (t, vars) => String(t || '').replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
+function freeLine(){ return tpl(C('FREE_LINE') || 'لأن طبعنا الكرم، ضيافتك {free} أسئلة مجانية', { free: freeQ() }); }
+function welcomeCoffee(free){
+  const vars = { name: esc(firstName()), free: `<span class="free">${fmt(free)}</span>` };
+  const title = tpl(esc(C('WELCOME_TITLE') || 'حيّاك الله يا {name}'), vars);
+  const text = tpl(esc(C('WELCOME_TEXT') || 'لأن طبعنا الكرم، ضيافتك {free} أسئلة مجانية، والقهوة علينا'), vars);
+  const el = document.createElement('div'); el.className = 'welcome'; el.setAttribute('role', 'dialog');
+  el.innerHTML = `<div class="card">
+<svg viewBox="40 62 360 212" aria-hidden="true">
+  <defs>
+    <linearGradient id="vmBrass" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#7A5A22"/><stop offset=".12" stop-color="#B48A3E"/>
+      <stop offset=".3" stop-color="#F6E5AE"/><stop offset=".42" stop-color="#E2C47C"/>
+      <stop offset=".68" stop-color="#C09A50"/><stop offset=".9" stop-color="#8E6A2C"/><stop offset="1" stop-color="#6E5020"/>
+    </linearGradient>
+    <linearGradient id="vmBrassV" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#3A2A0E" stop-opacity=".28"/>
+    </linearGradient>
+    <linearGradient id="vmSpout" x1="1" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#8E6A2C"/><stop offset=".35" stop-color="#E9D08F"/><stop offset=".6" stop-color="#C9A45A"/><stop offset="1" stop-color="#8A6628"/>
+    </linearGradient>
+    <linearGradient id="vmBand" x1="0" x2="1">
+      <stop offset="0" stop-color="#6E5020"/><stop offset=".3" stop-color="#E8CF8C"/><stop offset=".55" stop-color="#B8914A"/><stop offset="1" stop-color="#5E431A"/>
+    </linearGradient>
+    <radialGradient id="vmCoffee" cx=".5" cy=".3" r=".8">
+      <stop offset="0" stop-color="#E2BC72"/><stop offset=".6" stop-color="#C99A4E"/><stop offset="1" stop-color="#A97A36"/>
+    </radialGradient>
+    <linearGradient id="vmCup" x1="0" x2="1">
+      <stop offset="0" stop-color="#D9DEE0"/><stop offset=".3" stop-color="#FFFFFF"/><stop offset=".75" stop-color="#F2F4F5"/><stop offset="1" stop-color="#C9CFD2"/>
+    </linearGradient>
+    <linearGradient id="vmDate" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8E4E24"/><stop offset=".55" stop-color="#5E2C12"/><stop offset="1" stop-color="#3E1C0A"/>
+    </linearGradient>
+    <radialGradient id="vmShadow"><stop offset="0" stop-color="#2D3A4A" stop-opacity=".22"/><stop offset="1" stop-color="#2D3A4A" stop-opacity="0"/></radialGradient>
+    <filter id="vmSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.4"/></filter>
+    <clipPath id="vmCupIn"><path d="M154.5 233.5h31l-2.6 19.2a5.5 5.5 0 0 1-5.4 4.7h-15a5.5 5.5 0 0 1-5.4-4.7z"/></clipPath>
+  </defs>
+  <ellipse cx="300" cy="262" rx="70" ry="8" fill="url(#vmShadow)"/>
+  <ellipse cx="170" cy="262" rx="26" ry="4.5" fill="url(#vmShadow)"/>
+  <ellipse cx="80" cy="262" rx="52" ry="6" fill="url(#vmShadow)"/>
+  <g transform="translate(80 252)">
+    <ellipse cx="0" cy="4" rx="46" ry="10.5" fill="#E9EDEC"/>
+    <ellipse cx="0" cy="2" rx="46" ry="10.5" fill="#FFFFFF" stroke="#D6BE85" stroke-width="2"/>
+    <ellipse cx="0" cy="2" rx="34" ry="7" fill="none" stroke="#E8DDBF" stroke-width="1"/>
+    <g>
+      <g transform="translate(-17 -2) rotate(-12)"><ellipse rx="15" ry="7.6" fill="url(#vmDate)"/><path d="M-10 -1.5c6 1.5 14 1 19-1M-8 2.5c5 .8 11 .5 15-1" stroke="#2E1406" stroke-width=".8" fill="none" opacity=".5"/><ellipse cx="-3" cy="-3.6" rx="8" ry="1.8" fill="#FFF" opacity=".28"/></g>
+      <g transform="translate(13 -1) rotate(9)"><ellipse rx="15" ry="7.6" fill="url(#vmDate)"/><path d="M-10 -1.5c6 1.5 14 1 19-1M-8 2.5c5 .8 11 .5 15-1" stroke="#2E1406" stroke-width=".8" fill="none" opacity=".5"/><ellipse cx="-3" cy="-3.6" rx="8" ry="1.8" fill="#FFF" opacity=".28"/></g>
+      <g transform="translate(-2 -9) rotate(-3)"><ellipse rx="15" ry="7.6" fill="url(#vmDate)"/><path d="M-10 -1.5c6 1.5 14 1 19-1M-8 2.5c5 .8 11 .5 15-1" stroke="#2E1406" stroke-width=".8" fill="none" opacity=".5"/><ellipse cx="-3" cy="-3.6" rx="8" ry="1.8" fill="#FFF" opacity=".3"/></g>
+    </g>
+  </g>
+  <g>
+    <path d="M152 231h36l-3 22a7.5 7.5 0 0 1-7.4 6.4h-15.2a7.5 7.5 0 0 1-7.4-6.4z" fill="url(#vmCup)" stroke="#B9C2C6" stroke-width="1"/>
+    <path d="M161 259.3h18l-1.2 2.6h-15.6z" fill="#D0D6D9"/>
+    <g clip-path="url(#vmCupIn)">
+      <g class="vmCoffee"><rect x="150" y="234" width="40" height="26" fill="url(#vmCoffee)"/><ellipse cx="170" cy="234.5" rx="15.5" ry="2.2" fill="#EBCB86"/></g>
+    </g>
+    <ellipse cx="170" cy="231" rx="18" ry="2.6" fill="none" stroke="#D2B062" stroke-width="2"/>
+    <path d="M154.2 241h31.6" stroke="#2E7D7B" stroke-width="2.2" opacity=".85"/>
+    <path d="M154.6 244.2h30.8" stroke="#D2B062" stroke-width="1" stroke-dasharray="1.2 2.6" stroke-linecap="round"/>
+    <path d="M157 234c-.4 6 0 14 2 21" stroke="#FFF" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+    <g class="vmSteam" fill="none" stroke="#AEB8C2" stroke-width="2.2" stroke-linecap="round" filter="url(#vmSoft)">
+      <path d="M163 224c-5-6 5-9 0-17"/><path d="M171 222c-5-6 5-9 0-17"/><path d="M179 224c-5-6 5-9 0-17"/>
+    </g>
+  </g>
+  <path class="vmStream" d="M171.5 169c1.5 20 -.5 42 -1.5 65" fill="none" stroke="#D2A658" stroke-width="3.6" stroke-linecap="round"/>
+  <g class="vmDallah">
+    <g transform="translate(300 250)" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M21 -108C58 -112 70 -86 64 -66C58 -48 48 -40 40 -34" fill="none" stroke="#6E5020" stroke-width="9"/>
+      <path d="M21 -108C58 -112 70 -86 64 -66C58 -48 48 -40 40 -34" fill="none" stroke="url(#vmBand)" stroke-width="6"/>
+      <path d="M21 -108C52 -111 62 -90 60 -72" fill="none" stroke="#F6E5AE" stroke-width="1.4" opacity=".7"/>
+      <path d="M14 -113c6-3 12-3 15 1s-1 9-8 9-11-6-7-10z" fill="url(#vmBrass)" stroke="#6E5020" stroke-width="1"/>
+      <path d="M34 -40c5-3 11-1 12 4s-4 8-9 7-7-7-3-11z" fill="url(#vmBrass)" stroke="#6E5020" stroke-width="1"/>
+      <circle cx="21" cy="-108" r="1.6" fill="#5E431A"/><circle cx="40" cy="-35" r="1.6" fill="#5E431A"/>
+      <path d="M-38 -34C-58 -48 -74 -86 -92 -150C-80 -110 -60 -78 -26 -64z" fill="url(#vmSpout)" stroke="#6E5020" stroke-width="1.2"/>
+      <path d="M-40 -40C-57 -56 -70 -88 -86 -136" fill="none" stroke="#FAEBC0" stroke-width="1.4" opacity=".65"/>
+      <path d="M-92 -150c-1.5 3 -1 6 1 7.5" fill="none" stroke="#6E5020" stroke-width="1.2"/>
+      <path d="M-49 -66c5 3 11 5 17 5" fill="none" stroke="#6E5020" stroke-width="3.4"/>
+      <path d="M-49 -66c5 3 11 5 17 5" fill="none" stroke="url(#vmBand)" stroke-width="2"/>
+      <path d="M-44 -42c4 3 9 4 13 3.5" fill="none" stroke="url(#vmBand)" stroke-width="3"/>
+      <path d="M-30 0C-34 0 -35 -3 -33 -6H33C35 -3 34 0 30 0z" fill="url(#vmBand)" stroke="#5E431A" stroke-width="1"/>
+      <path d="M-33 -6C-46 -14 -47 -34 -38 -48C-33 -56 -27 -60 -24 -64H24C27 -60 33 -56 38 -48C47 -34 46 -14 33 -6z" fill="url(#vmBrass)" stroke="#6E5020" stroke-width="1.2"/>
+      <path d="M-33 -6C-46 -14 -47 -34 -38 -48C-33 -56 -27 -60 -24 -64H24C27 -60 33 -56 38 -48C47 -34 46 -14 33 -6z" fill="url(#vmBrassV)"/>
+      <path d="M-42 -28C-20 -23 20 -23 42 -28" fill="none" stroke="#7A5A22" stroke-width="1.1" opacity=".75"/>
+      <path d="M-41 -23C-20 -18 20 -18 41 -23" fill="none" stroke="#7A5A22" stroke-width="1.1" opacity=".75"/>
+      <path d="M-40 -25.5C-20 -20.5 20 -20.5 40 -25.5" fill="none" stroke="#5E431A" stroke-width="1.6" stroke-dasharray=".1 4.2" opacity=".9"/>
+      <path d="M-30 -44l4 6 4-6 4 6 4-6 4 6 4-6 4 6 4-6 4 6 4-6 4 6 4-6 4 6 4-6" fill="none" stroke="#7A5A22" stroke-width=".9" opacity=".55"/>
+      <path d="M-27 -14C-31 -26 -30 -40 -22 -52" fill="none" stroke="#FFF6D8" stroke-width="3.2" opacity=".55"/>
+      <path d="M-27 -62H27C28 -66 28 -68 27 -70H-27C-28 -68 -28 -66 -27 -62z" fill="url(#vmBand)" stroke="#5E431A" stroke-width="1"/>
+      <path d="M-22 -70C-17 -80 -14 -90 -14 -100C-14 -106 -18 -112 -25 -118H25C18 -112 14 -106 14 -100C14 -90 17 -80 22 -70z" fill="url(#vmBrass)" stroke="#6E5020" stroke-width="1.2"/>
+      <path d="M-15 -96H15" stroke="#7A5A22" stroke-width="1" opacity=".7"/>
+      <path d="M-14.5 -93H14.5" stroke="#5E431A" stroke-width="1.4" stroke-dasharray=".1 3.4" opacity=".85"/>
+      <path d="M-9 -74C-12 -84 -12 -96 -11 -106" fill="none" stroke="#FFF6D8" stroke-width="2.2" opacity=".5"/>
+      <path d="M-27 -118H27C28.5 -120 28.5 -122 27 -124H-27C-28.5 -122 -28.5 -120 -27 -118z" fill="url(#vmBand)" stroke="#5E431A" stroke-width="1"/>
+      <path d="M-24 -124C-22 -136 -12 -143 0 -143S22 -136 24 -124z" fill="url(#vmBrass)" stroke="#6E5020" stroke-width="1.2"/>
+      <path d="M-15 -127C-13 -134 -8 -138 -2 -139" fill="none" stroke="#FFF6D8" stroke-width="2" opacity=".55"/>
+      <path d="M-20 -128.5C-8 -126.5 8 -126.5 20 -128.5" stroke="#5E431A" stroke-width="1.3" stroke-dasharray=".1 3.6" fill="none" opacity=".8"/>
+      <path d="M-9 -143H9C9 -146 7 -147 6 -147H-6C-7 -147 -9 -146 -9 -143z" fill="url(#vmBand)" stroke="#5E431A" stroke-width="1"/>
+      <circle cx="0" cy="-153" r="7" fill="url(#vmBrass)" stroke="#6E5020" stroke-width="1.1"/>
+      <circle cx="-2.4" cy="-155.4" r="2" fill="#FFF6D8" opacity=".6"/>
+      <path d="M-4 -160H4C4 -162 2.5 -163 0 -163S-4 -162 -4 -160z" fill="url(#vmBand)" stroke="#5E431A" stroke-width=".9"/>
+      <path d="M-3 -163C-3 -168 -1.5 -173 0 -176C1.5 -173 3 -168 3 -163z" fill="url(#vmBrass)" stroke="#6E5020" stroke-width=".9"/>
+      <circle cx="0" cy="-176.5" r="1.8" fill="#C9A45A" stroke="#6E5020" stroke-width=".7"/>
+    </g>
+  </g>
+</svg>
+    <div class="txt"><h2>${title}</h2><p>${text}</p>
+      <button class="btn primary block" id="welcomeGo">${esc(C('WELCOME_BUTTON') || 'يلا نبدأ')}</button></div>
+  </div>`;
+  document.body.append(el);
+  const close = () => { el.style.transition = 'opacity .3s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 300); };
+  $('#welcomeGo', el).onclick = close;
+  el.addEventListener('click', e => { if (e.target === el) close(); });
+}
+
+/* الوضع الليلي: تلقائي حسب الجهاز، أو اختيار يدوي يتذكره */
+function applyTheme(){
+  const t = store.get('vm_theme');
+  if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+  const dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  $('#themeBtn').innerHTML = ic(dark ? 'sun' : 'moon');
+}
+$('#themeBtn').onclick = () => {
+  const dark = document.documentElement.dataset.theme
+    ? document.documentElement.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  store.set('vm_theme', dark ? 'light' : 'dark'); applyTheme();
+};
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', applyTheme);
+
+/* ═════════════════════ التنقل ═════════════════════ */
+const ROUTES = {
+  '':      { view: () => user() ? viewHome() : viewLanding(), data:true },
+  'pricing': { view: viewPricing, data:true },
+  'register': { view: viewRegister, guest:true },
+  'verify': { view: viewVerify, guest:true },
+  'login': { view: viewLogin, guest:true },
+  'forgot': { view: viewForgot, guest:true },
+  'reset': { view: viewReset, guest:true },
+  'ask': { view: viewAsk, auth:true, data:true },
+  'account': { view: viewAccount, auth:true, data:true },
+  'terms': { view: () => viewLegal('TERMS', 'الشروط والأحكام'), data:true },
+  'privacy': { view: () => viewLegal('PRIVACY', 'سياسة الخصوصية'), data:true },
+  'disclaimer': { view: () => viewLegal('DISCLAIMER', 'إخلاء المسؤولية'), data:true }
+};
+const routeName = () => (location.hash.replace(/^#\/?/, '').split('?')[0]);
+function go(h){ if (location.hash === h) render(); else location.hash = h; }
+
+function render(soft){
+  let name = routeName(); let r = ROUTES[name];
+  if (!r){ name = ''; r = ROUTES['']; }
+  if (r.auth && !user()) { store.set('vm_after_login', '#/' + name); return go('#/login'); }
+  if (r.guest && user()) return go('#/');
+  if (soft && !r.data) return;  // ما نعيد رسم نموذج وأحد يكتب فيه
+  const app = $('#app');
+  const y = soft ? scrollY : 0;
+  app.innerHTML = `<div class="view">${r.view()}</div>`;
+  if (soft) app.firstElementChild.style.animation = 'none';
+  chrome(name);
+  bindView(name);
+  if (!soft) scrollTo({ top: 0 }); else scrollTo({ top: y });
+  document.title = 'Verimed' + (name && TITLES[name] ? ' — ' + TITLES[name] : ' — الإجابة الموثوقة لاختبار SMLE');
+}
+const TITLES = { pricing:'الباقات', register:'إنشاء حساب', verify:'تفعيل الحساب', login:'تسجيل الدخول', forgot:'استعادة كلمة المرور', reset:'كلمة مرور جديدة', ask:'اسأل', account:'حسابي', terms:'الشروط والأحكام', privacy:'سياسة الخصوصية', disclaimer:'إخلاء المسؤولية' };
+
+function chrome(name){
+  const a = C('ANNOUNCEMENT');
+  $('#announce').innerHTML = a ? `<div class="announce">${esc(a)}</div>` : '';
+  const u = user();
+  $('#topnav').innerHTML = u
+    ? `<a href="#/" class="${name===''?'on':''}">الرئيسية</a><a href="#/ask" class="${name==='ask'?'on':''}">اسأل</a><a href="#/pricing" class="${name==='pricing'?'on':''}">الباقات</a><a href="#/account" class="${name==='account'?'on':''}">حسابي</a>`
+    : `<a href="#/" class="${name===''?'on':''}">الرئيسية</a><a href="#/pricing" class="${name==='pricing'?'on':''}">الباقات</a>`;
+  $('#topAction').innerHTML = u ? '' : (name === 'login' ? `<a class="btn sm soft" href="#/register">إنشاء حساب</a>` : `<a class="btn sm soft" href="#/login">دخول</a>`);
+  const tb = $('#tabbar');
+  tb.classList.toggle('show', !!u);
+  if (u) tb.innerHTML = [['', 'home', 'الرئيسية'], ['ask', 'chat', 'اسأل'], ['pricing', 'tag', 'الباقات'], ['account', 'user', 'حسابي']]
+    .map(([r, i, t]) => `<a href="#/${r}" class="${name===r?'on':''}">${ic(i)}<span>${t}</span></a>`).join('');
+}
+addEventListener('hashchange', () => render());
+addEventListener('scroll', () => $('#top').classList.toggle('scrolled', scrollY > 4), { passive:true });
+addEventListener('online', () => $('#offline').classList.remove('show'));
+addEventListener('offline', () => $('#offline').classList.add('show'));
+
+/* ═════════════════════ الصفحة الرئيسية (للزوار) ═════════════════════ */
+function footer(){
+  return `<footer><div class="wrap">
+    <img class="logo-light" src="logo.svg" alt="Verimed"><img class="logo-dark" src="logo-dark.svg" alt="Verimed">
+    <div class="links"><a href="#/pricing">الباقات</a><a href="#/terms">الشروط والأحكام</a><a href="#/privacy">سياسة الخصوصية</a><a href="#/disclaimer">إخلاء المسؤولية</a>
+    ${S.boot && S.boot.config && S.boot.config.supportEmail ? `<a href="mailto:${esc(S.boot.config.supportEmail)}">تواصل معنا</a>` : ''}</div>
+    <div>${esc(C('FOOTER_NOTE'))}</div>
+    <div style="margin-top:6px" class="ltr">© ${new Date().getFullYear()} Verimed</div>
+  </div></footer>`;
+}
+const freeQ = () => (S.boot && S.boot.config && S.boot.config.freeQuestions) || 5;
+
+function viewLanding(){
+  const faq = (S.boot && S.boot.faq) || [];
+  return `
+  <section class="hero"><div class="wrap">
+    <div class="kicker"><span class="badge">${ic('shield')} للاستعداد لاختبار SMLE</span></div>
+    <h1>${esc(C('HERO_TITLE') || 'الإجابة الموثوقة لاختبار SMLE')}</h1>
+    <p class="lead">${esc(C('HERO_SUB'))}</p>
+    <div class="actions">
+      <a class="btn primary" href="#/register">ابدأ بـ ${freeQ()} أسئلة مجانية</a>
+      <a class="btn ghost" href="#/pricing">شوف الباقات</a>
+    </div>
+    <div class="note">${esc(freeLine())}</div>
+
+    <div class="card demo" aria-label="مثال توضيحي لشكل الإجابة">
+      <div class="demo-q"><div class="tile">${ic('chat')}</div>
+        <p>A 24-year-old develops urticaria, wheeze and hypotension minutes after a bee sting. What is the first-line treatment?</p></div>
+      <div class="steps-live"><span><i class="dot"></i>المراجع</span><span><i class="dot"></i>بنوك الأسئلة</span><span><i class="dot"></i>ملفات <bdi>Confirmed</bdi></span><span><i class="dot"></i><bdi>Courses</bdi></span></div>
+      <table class="tbl">
+        <tr><td>Gameboy</td><td class="ltr" style="text-align:right">IM adrenaline</td></tr>
+        <tr><td>Medgard</td><td class="ltr" style="text-align:right">IM adrenaline</td></tr>
+        <tr><td>Confirmed</td><td class="ltr" style="text-align:right">IM adrenaline</td></tr>
+        <tr><td>Courses answer</td><td class="ltr" style="text-align:right">IM adrenaline 0.5 mg</td></tr>
+        <tr class="final"><td>الإجابة الموصى بها</td><td><span class="ltr">IM adrenaline</span> ${ic('check')}</td></tr>
+      </table>
+      <span class="demo-label">مثال توضيحي لشكل الإجابة</span>
+    </div>
+  </div></section>
+
+  <section class="section how"><div class="wrap">
+    <div class="section-head"><h2>كيف تشتغل؟</h2><p class="muted">ثلاث خطوات، وتوصلك إجابة تقدر تتبّع مصدرها</p></div>
+    <div class="grid g3">
+      <div class="card lift"><span class="num">01</span><div class="tile">${ic('chat')}</div><h3>اكتب سؤالك</h3><p class="muted">الصق السؤال مع الخيارات، أو اكتب الحالة بأسلوبك.</p></div>
+      <div class="card lift"><span class="num">02</span><div class="tile">${ic('search')}</div><h3>نبحث ونقارن</h3><p class="muted">ندوّر في المراجع وبنوك الأسئلة، ونعرض إجابة كل مصدر جنب الثاني.</p></div>
+      <div class="card lift"><span class="num">03</span><div class="tile">${ic('shield')}</div><h3>تاخذ الإجابة الموثّقة</h3><p class="muted">مع المصدر، وتنبيه لو المصادر اختلفت، ونقاط High-Yield للمراجعة.</p></div>
+    </div>
+  </div></section>
+
+  <section class="section" style="padding-top:8px"><div class="wrap">
+    <div class="section-head"><h2>ليش فيرميد؟</h2></div>
+    <div class="grid g2">
+      ${[['compare','مقارنة المصادر','تشوف إجابة <bdi>Gameboy</bdi> و<bdi>Medgard</bdi> و<bdi>Confirmed</bdi> والكورسات في جدول واحد.'],
+         ['book','اقتباس من المرجع','الإجابة مدعومة بنص من المرجع مع اسم الكتاب والصفحة.'],
+         ['star','نقاط <bdi>High-Yield</bdi>','ملخص سريع في آخر كل إجابة يختصر عليك المراجعة.'],
+         ['bolt','رصيدك ما يضيع','الأسئلة الباقية تنتقل معك لما تجدد، ولا ينخصم سؤال لو صار خطأ تقني.']]
+        .map(([i,t,d]) => `<div class="card lift" style="display:flex;gap:16px;align-items:flex-start"><div class="tile" style="margin:0">${ic(i)}</div><div><h3>${t}</h3><p class="muted" style="margin:0">${d}</p></div></div>`).join('')}
+    </div>
+  </div></section>
+
+  ${faq.length ? `<section class="section faq" style="padding-top:8px"><div class="wrap" style="max-width:760px">
+    <div class="section-head"><h2>أسئلة شائعة</h2></div>
+    ${faq.map(f => `<details><summary>${esc(f.q)}${ic('chevron')}</summary><p>${esc(f.a)}</p></details>`).join('')}
+  </div></section>` : ''}
+
+  <section class="section" style="padding-top:8px"><div class="wrap">
+    <div class="card" style="text-align:center;padding:36px 22px">
+      <h2>جاهز تبدأ؟</h2><p class="muted">سجّل الحين وجرّب ${freeQ()} أسئلة مجاناً.</p>
+      <a class="btn primary" href="#/register">إنشاء حساب مجاني</a>
+    </div>
+  </div></section>
+  ${footer()}`;
+}
+
+/* ═════════════════════ الباقات ═════════════════════ */
+function viewPricing(){
+  const pk = S.boot && S.boot.packages;
+  const perQ = p => p.questions ? p.price / p.questions : 0;
+  const best = pk && pk.length > 1 ? pk.reduce((a, b) => perQ(b) < perQ(a) ? b : a) : null;
+  const cards = pk ? pk.map(p => `
+    <div class="card plan ${best && best.id === p.id ? 'best' : ''}">
+      ${best && best.id === p.id ? `<span class="badge tag" style="background:var(--primary);color:var(--primary-ink)">أفضل قيمة</span>` : ''}
+      <h3>${esc(p.name)}</h3>
+      <div class="price">${fmt(p.price)} <small>ريال</small></div>
+      <div class="muted" style="font-size:14px">≈ ${perQ(p).toFixed(2)} ريال للسؤال</div>
+      <ul>
+        <li>${ic('check')}<span><b>${fmt(p.questions)}</b> سؤال</span></li>
+        <li>${ic('check')}<span>صالحة ${fmt(p.days)} يوم</span></li>
+        <li>${ic('check')}<span>الرصيد الباقي ينتقل معك عند التجديد</span></li>
+        ${p.features ? `<li>${ic('check')}<span>${esc(p.features)}</span></li>` : ''}
+      </ul>
+      <button class="btn ${best && best.id === p.id ? 'primary' : 'ghost'} block" data-buy="${esc(p.id)}">اشترك</button>
+    </div>`).join('')
+    : [1,2,3].map(() => `<div class="card plan"><div class="sk" style="height:22px;width:50%"></div><div class="sk" style="height:42px;width:40%;margin:16px 0"></div><div class="sk" style="height:14px;margin:8px 0"></div><div class="sk" style="height:14px;width:80%;margin:8px 0 24px"></div><div class="sk" style="height:50px;border-radius:99px"></div></div>`).join('');
+  return `<div class="wrap">
+    <div class="page-head" style="text-align:center"><h1>الباقات</h1>
+      <p class="muted">${user() ? 'اختر الباقة اللي تناسب خطتك' : `ابدأ بـ ${freeQ()} أسئلة مجانية، واشترك لما تحتاج`}</p></div>
+    <div class="plans" style="margin-top:14px">${cards}</div>
+    <p class="muted" style="text-align:center;font-size:14px;margin-top:22px">الدفع آمن عبر مدى وApple Pay والبطاقات الائتمانية</p>
+  </div>${footer()}`;
+}
+
+function openCheckout(id){
+  if (!user()) { store.set('vm_after_login', '#/pricing'); toast('سجّل دخولك أول عشان تشترك'); return go('#/login'); }
+  const p = (S.boot.packages || []).find(x => x.id === id); if (!p) return;
+  const sh = sheet(`
+    <h3>${esc(p.name)}</h3>
+    <p class="muted" style="margin-bottom:18px">${fmt(p.questions)} سؤال · ${fmt(p.days)} يوم</p>
+    <label class="field"><span>كود خصم (اختياري)</span>
+      <div style="display:flex;gap:8px"><input class="input ltr" id="coupon" autocomplete="off" style="text-transform:uppercase;text-align:left" placeholder="CODE">
+      <button class="btn ghost" id="applyCoupon" style="min-height:52px">تطبيق</button></div></label>
+    <div class="card" style="box-shadow:none;background:var(--surface-2);border:0;margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between"><span class="muted">السعر</span><span id="qOrig">${fmt(p.price)} ريال</span></div>
+      <div id="qDiscRow" style="display:none;justify-content:space-between;color:var(--ok)"><span>الخصم</span><span id="qDisc"></span></div>
+      <div style="display:flex;justify-content:space-between;font-weight:600;font-size:18px;margin-top:6px"><span>الإجمالي</span><span id="qTotal">${fmt(p.price)} ريال</span></div>
+    </div>
+    <button class="btn primary block" id="payBtn">متابعة للدفع</button>
+    <button class="btn link block" data-close style="margin-top:6px">إلغاء</button>`);
+  const inp = $('#coupon', sh.el);
+  const applyBtn = $('#applyCoupon', sh.el);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') applyBtn.click(); });
+  applyBtn.onclick = async () => {
+    const code = inp.value.trim(); fieldError(inp, '');
+    if (!code) return;
+    busy(applyBtn, true);
+    const r = await api('quotePrice', { packageId: id, coupon: code });
+    busy(applyBtn, false);
+    if (!r.ok) { fieldError(inp, r.error); return; }
+    $('#qDiscRow', sh.el).style.display = 'flex';
+    $('#qDisc', sh.el).textContent = '− ' + fmt(r.data.discount) + ' ريال';
+    $('#qTotal', sh.el).textContent = fmt(r.data.price) + ' ريال';
+    toast('تم تطبيق كود الخصم', 'ok');
+  };
+  $('#payBtn', sh.el).onclick = () => toast('الدفع الإلكتروني يتفعّل قريباً');
+}
+
+/* ═════════════════════ الحسابات ═════════════════════ */
+const pwField = (id, label, ac) => `<label class="field"><span>${label}</span><div class="pw">
+  <input class="input ltr" style="text-align:left" type="password" id="${id}" autocomplete="${ac}" minlength="8" required>
+  <button type="button" class="icon-btn" data-eye="${id}" aria-label="إظهار كلمة المرور">${ic('eye')}</button></div></label>`;
+const emailField = (v='') => `<label class="field"><span>البريد الإلكتروني</span>
+  <input class="input ltr" style="text-align:left" type="email" id="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required value="${esc(v)}"></label>`;
+
+function viewRegister(){
+  const b = S.boot || {}; const unis = b.universities || []; const sts = b.statuses || [];
+  return `<div class="wrap narrow auth">
+    <h1>إنشاء حساب</h1><p class="muted">${esc(freeLine())}، مباشرة بعد التفعيل.</p>
+    <form class="card" id="regForm" novalidate>
+      <label class="field"><span>الاسم الكامل</span><input class="input" id="name" autocomplete="name" required maxlength="60"></label>
+      <div class="field"><span>أنا</span><div class="seg" role="radiogroup">
+        <label><input type="radio" name="gender" value="M"><span>طالب</span></label>
+        <label><input type="radio" name="gender" value="F"><span>طالبة</span></label></div></div>
+      ${emailField()}
+      ${pwField('password', 'كلمة المرور', 'new-password')}
+      <div class="hint" id="pwHint" style="margin:-10px 0 14px">8 أحرف أو أكثر</div>
+      <label class="field"><span>الجامعة</span><select class="input" id="uni" required>
+        <option value="" disabled selected>اختر الجامعة</option>
+        ${unis.map(u => `<option>${esc(u)}</option>`).join('')}<option value="__other">أخرى</option></select></label>
+      <label class="field" id="uniOtherWrap" style="display:none"><span>اسم الجامعة</span><input class="input" id="uniOther"></label>
+      ${sts.length ? `<label class="field"><span>المرحلة</span><select class="input" id="status"><option value="" disabled selected>اختر المرحلة</option>${sts.map(s => `<option>${esc(s)}</option>`).join('')}</select></label>` : ''}
+      <label class="check"><input type="checkbox" id="agree"><span>أوافق على <a href="#/terms" target="_blank">الشروط والأحكام</a> و<a href="#/privacy" target="_blank">سياسة الخصوصية</a></span></label>
+      <button class="btn primary block" type="submit">إنشاء الحساب</button>
+    </form>
+    <p style="text-align:center;margin-top:18px">عندك حساب؟ <a href="#/login">سجّل دخولك</a></p>
+  </div>`;
+}
+
+function viewVerify(){
+  const email = S.pendingEmail;
+  if (!email) return viewLoginBody('سجّل دخولك عشان نرسل لك رمز التفعيل');
+  return `<div class="wrap narrow auth">
+    <div class="tile" style="width:56px;height:56px;border-radius:18px">${ic('mail')}</div>
+    <h1>تحقق من بريدك</h1>
+    <p class="muted">أرسلنا رمز من 6 أرقام إلى <b class="ltr">${esc(email)}</b>. لو ما لقيته، شيّك على مجلد الرسائل غير المرغوبة (Spam).</p>
+    <form class="card" id="verifyForm" novalidate>
+      <div class="otp">${[0,1,2,3,4,5].map(i => `<input inputmode="numeric" pattern="[0-9]*" maxlength="1" ${i===0?'autocomplete="one-time-code"':''} aria-label="الرقم ${i+1}">`).join('')}</div>
+      <button class="btn primary block" type="submit">تفعيل الحساب</button>
+      <div style="text-align:center;margin-top:12px"><button type="button" class="btn link" id="resend" disabled>إعادة الإرسال</button></div>
+    </form>
+    <p style="text-align:center;margin-top:18px"><a href="#/register" id="changeEmail">تغيير البريد الإلكتروني</a></p>
+  </div>`;
+}
+
+function viewLoginBody(msg){
+  return `<div class="wrap narrow auth">
+    <h1>أهلاً فيك من جديد</h1><p class="muted">${msg || 'سجّل دخولك وكمّل مذاكرتك.'}</p>
+    <form class="card" id="loginForm" novalidate>
+      ${emailField(store.get('vm_last_email', ''))}
+      ${pwField('password', 'كلمة المرور', 'current-password')}
+      <div style="margin:-6px 0 16px;text-align:left"><a href="#/forgot" style="font-size:14px">نسيت كلمة المرور؟</a></div>
+      <button class="btn primary block" type="submit">تسجيل الدخول</button>
+    </form>
+    <p style="text-align:center;margin-top:18px">جديد هنا؟ <a href="#/register">أنشئ حساب مجاني</a></p>
+  </div>`;
+}
+function viewLogin(){ return viewLoginBody(); }
+
+function viewForgot(){
+  return `<div class="wrap narrow auth">
+    <h1>استعادة كلمة المرور</h1><p class="muted">اكتب بريدك، ونرسل لك رمز تعيّن فيه كلمة مرور جديدة.</p>
+    <form class="card" id="forgotForm" novalidate>${emailField(store.get('vm_last_email', ''))}
+      <button class="btn primary block" type="submit">إرسال الرمز</button></form>
+    <p style="text-align:center;margin-top:18px"><a href="#/login">رجوع لتسجيل الدخول</a></p>
+  </div>`;
+}
+
+function viewReset(){
+  const email = store.get('vm_reset_email', '');
+  if (!email) return viewForgot();
+  return `<div class="wrap narrow auth">
+    <h1>كلمة مرور جديدة</h1><p class="muted">إذا البريد <b class="ltr">${esc(email)}</b> مسجّل عندنا، بيوصلك رمز خلال دقيقة.</p>
+    <form class="card" id="resetForm" novalidate>
+      <div class="otp">${[0,1,2,3,4,5].map(i => `<input inputmode="numeric" pattern="[0-9]*" maxlength="1" ${i===0?'autocomplete="one-time-code"':''} aria-label="الرقم ${i+1}">`).join('')}</div>
+      ${pwField('password', 'كلمة المرور الجديدة', 'new-password')}
+      <button class="btn primary block" type="submit">حفظ كلمة المرور</button>
+    </form>
+  </div>`;
+}
+
+/* ═════════════════════ لوحة الطالب ═════════════════════ */
+function greet(){ const h = new Date().getHours(); return h < 12 ? 'صباح الخير' : 'مساء الخير'; }
+function daysLeft(iso){ if (!iso) return 0; return Math.max(0, Math.ceil((new Date(iso) - Date.now()) / 86400000)); }
+
+function balanceCard(){
+  const b = S.boot.balance || { usable:0, free:0, paid:0 };
+  const chips = [];
+  if (b.free) chips.push(`${fmt(b.free)} مجانية`);
+  if (b.planActive) chips.push(`${esc(b.planName)} · باقي ${fmt(daysLeft(b.planExpiry))} يوم`);
+  else if (b.paid) chips.push(`${fmt(b.paid)} سؤال محفوظ، يرجع لك مع التجديد`);
+  return `<div class="card balance">
+    <div style="opacity:.85">رصيدك المتاح</div>
+    <div class="big">${fmt(b.usable)}</div>
+    <div style="opacity:.85">سؤال</div>
+    ${chips.length ? `<div class="row">${chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>` : ''}
+    <a class="btn" href="${b.usable ? '#/ask' : '#/pricing'}">${b.usable ? 'اسأل الحين' : 'اشترك وكمّل'}</a>
+  </div>`;
+}
+
+function viewHome(){
+  return `<div class="wrap" style="max-width:760px">
+    <div class="hello"><h1 style="font-size:28px">${greet()} يا ${esc(firstName())}</h1>
+      <p class="muted">${G('جاهز تذاكر اليوم؟', 'جاهزة تذاكرين اليوم؟')}</p></div>
+    ${balanceCard()}
+    <div class="grid g2" style="margin-top:16px">
+      <a class="card lift" href="#/ask" style="color:inherit;display:flex;gap:14px;align-items:center"><div class="tile" style="margin:0">${ic('chat')}</div><div><h3 style="margin:0">اسأل سؤال</h3><div class="muted" style="font-size:14px">الإجابة مع المصادر</div></div></a>
+      <a class="card lift" href="#/pricing" style="color:inherit;display:flex;gap:14px;align-items:center"><div class="tile" style="margin:0">${ic('tag')}</div><div><h3 style="margin:0">الباقات</h3><div class="muted" style="font-size:14px">زِد رصيدك</div></div></a>
+    </div>
+    ${referralCard()}
+  </div>${footer()}`;
+}
+
+function referralCard(){
+  const code = user() && user().referralCode; if (!code) return '';
+  return `<div class="card" style="margin-top:16px"><div style="display:flex;gap:14px;align-items:center"><div class="tile" style="margin:0">${ic('gift')}</div>
+    <div><h3 style="margin:0">ادعُ ${G('زملاءك', 'زميلاتك')}</h3><div class="muted" style="font-size:14px">شارك كودك مع دفعتك</div></div></div>
+    <div class="code-box"><b>${esc(code)}</b>
+      <button class="icon-btn" data-copy="${esc(code)}" aria-label="نسخ">${ic('copy')}</button>
+      <button class="icon-btn" data-share="${esc(code)}" aria-label="مشاركة">${ic('share')}</button></div></div>`;
+}
+
+function viewAsk(){
+  const b = S.boot.balance || {};
+  return `<div class="wrap" style="max-width:760px">
+    <div class="page-head"><h1>اسأل</h1><p class="muted">رصيدك: <b>${fmt(b.usable)}</b> سؤال</p></div>
+    <div class="card" style="text-align:center;padding:40px 22px">
+      <div class="tile" style="margin:0 auto 14px;width:58px;height:58px;border-radius:18px">${ic('search')}</div>
+      <h3>صفحة الأسئلة تجهز قريباً</h3>
+      <p class="muted" style="max-width:420px;margin:0 auto">بتقدر تلصق سؤالك أو تكتب الحالة، ونبحث لك في المراجع وبنوك الأسئلة ونرجّع لك الإجابة الموثّقة مع مصادرها.</p>
+    </div>
+  </div>`;
+}
+
+function viewAccount(){
+  const u = user(); const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  return `<div class="wrap" style="max-width:760px">
+    <div class="page-head"><h1>حسابي</h1></div>
+    <div class="card">
+      <div style="display:flex;gap:14px;align-items:center;margin-bottom:6px"><div class="tile" style="margin:0">${ic('user')}</div>
+        <div><h3 style="margin:0">${esc(u.name)}</h3><div class="muted ltr" style="font-size:14px;text-align:right">${esc(u.email)}</div></div></div>
+      <div class="muted" style="font-size:14px">${esc(u.university)}${u.status ? ' · ' + esc(u.status) : ''}</div>
+    </div>
+    <div style="margin-top:16px">${balanceCard()}</div>
+    ${referralCard()}
+    <div class="card" style="margin-top:16px;padding:6px 18px">
+      ${!standalone ? `<button class="list-row" id="installBtn">${ic('phone')}<span class="grow">أضف فيرميد للشاشة الرئيسية</span>${ic('back')}</button>` : ''}
+      <a class="list-row" href="#/terms">${ic('doc')}<span class="grow">الشروط والأحكام</span>${ic('back')}</a>
+      <a class="list-row" href="#/privacy">${ic('shield')}<span class="grow">سياسة الخصوصية</span>${ic('back')}</a>
+      <button class="list-row" id="logoutBtn" style="color:var(--bad)">${ic('logout')}<span class="grow">تسجيل الخروج</span></button>
+    </div>
+  </div>${footer()}`;
+}
+
+function viewLegal(key, title){
+  const text = C(key);
+  return `<div class="wrap legal" style="max-width:760px"><div class="page-head"><h1>${title}</h1></div>
+    <div class="card">${text ? text.split(/\n{2,}/).map(p => `<p>${esc(p)}</p>`).join('') : '<div class="sk" style="height:120px"></div>'}</div>
+    ${key !== 'DISCLAIMER' && C('DISCLAIMER') ? `<p class="muted" style="font-size:14px;margin-top:16px">${esc(C('DISCLAIMER'))}</p>` : ''}
+  </div>${footer()}`;
+}
+
+function renderError(msg){
+  $('#app').innerHTML = `<div class="wrap narrow auth view" style="text-align:center"><div class="card" style="padding:36px 22px">
+    <h3>${esc(msg || 'تعذّر تحميل الصفحة')}</h3><p class="muted">تأكد من اتصالك بالإنترنت وحاول مرة ثانية.</p>
+    <button class="btn primary" onclick="location.reload()">إعادة المحاولة</button></div></div>`;
+}
+
+/* ═════════════════════ ربط الأحداث لكل صفحة ═════════════════════ */
+const EMAIL_FIX = { 'gmial.com':'gmail.com','gmai.com':'gmail.com','gamil.com':'gmail.com','gmail.co':'gmail.com','gmail.con':'gmail.com','gmail.cm':'gmail.com','gnail.com':'gmail.com',
+  'hotmial.com':'hotmail.com','hotmail.co':'hotmail.com','hotmai.com':'hotmail.com','outlok.com':'outlook.com','outlook.co':'outlook.com','icloud.co':'icloud.com','iclod.com':'icloud.com','yaho.com':'yahoo.com' };
+const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+
+function bindCommon(root){
+  // أي خطأ يختفي أول ما يبدأ الشخص يصلحه
+  const clear = e => {
+    const t = e.target; const f = t.closest && t.closest('form'); if (!f) return;
+    if (t.classList.contains('input')) fieldError(t, '');
+    formError(f, '');
+  };
+  root.addEventListener('input', clear); root.addEventListener('change', clear);
+  $$('[data-eye]', root).forEach(b => b.onclick = () => {
+    const i = $('#' + b.dataset.eye); const show = i.type === 'password';
+    i.type = show ? 'text' : 'password'; b.innerHTML = ic(show ? 'eyeOff' : 'eye');
+  });
+  const em = $('#email', root);
+  if (em) em.addEventListener('blur', () => {
+    const v = em.value.trim().toLowerCase(); const dom = v.split('@')[1];
+    if (dom && EMAIL_FIX[dom]) {
+      const fixed = v.split('@')[0] + '@' + EMAIL_FIX[dom];
+      fieldError(em, ''); const f = em.closest('.field');
+      const h = document.createElement('div'); h.className = 'hint';
+      h.innerHTML = `تقصد <button type="button" class="ltr">${esc(fixed)}</button>؟`;
+      $('button', h).onclick = () => { em.value = fixed; h.remove(); };
+      $$('.hint', f).forEach(x => x.remove()); f.append(h);
+    }
+  });
+  $$('[data-copy]', root).forEach(b => b.onclick = async () => {
+    try { await navigator.clipboard.writeText(b.dataset.copy); toast('تم النسخ', 'ok'); } catch(e) { toast(b.dataset.copy); }
+  });
+  $$('[data-share]', root).forEach(b => b.onclick = async () => {
+    const link = location.origin + location.pathname + '?ref=' + b.dataset.share;
+    const text = `جرّب فيرميد للمذاكرة لاختبار SMLE، وسجّل من رابطي: ${link}`;
+    if (navigator.share) { try { await navigator.share({ title:'Verimed', text, url: link }); } catch(e){} }
+    else { try { await navigator.clipboard.writeText(text); toast('تم نسخ رابط الدعوة', 'ok'); } catch(e) { toast(link); } }
+  });
+  $$('[data-buy]', root).forEach(b => b.onclick = () => openCheckout(b.dataset.buy));
+}
+
+function bindOtp(form, onFull){
+  const boxes = $$('.otp input', form);
+  boxes.forEach((b, i) => {
+    b.addEventListener('input', () => {
+      const d = b.value.replace(/\D/g, '');
+      if (d.length > 1) { fillOtp(boxes, d); }
+      else { b.value = d; if (d && boxes[i + 1]) boxes[i + 1].focus(); }
+      if (boxes.every(x => x.value)) onFull && onFull();
+    });
+    b.addEventListener('keydown', e => { if (e.key === 'Backspace' && !b.value && boxes[i - 1]) boxes[i - 1].focus(); });
+    b.addEventListener('paste', e => { e.preventDefault(); fillOtp(boxes, (e.clipboardData.getData('text') || '').replace(/\D/g, '')); if (boxes.every(x => x.value)) onFull && onFull(); });
+  });
+  setTimeout(() => boxes[0] && boxes[0].focus(), 250);
+  return () => boxes.map(x => x.value).join('');
+}
+function fillOtp(boxes, digits){ digits.slice(0, 6).split('').forEach((d, k) => boxes[k] && (boxes[k].value = d)); (boxes[Math.min(digits.length, 5)] || boxes[5]).focus(); }
+
+function startResendTimer(btn, secs=60){
+  let left = secs; btn.disabled = true;
+  const tick = () => { if (!document.body.contains(btn)) return clearInterval(t); if (left <= 0){ btn.disabled = false; btn.textContent = 'إعادة الإرسال'; return clearInterval(t); } btn.textContent = `إعادة الإرسال بعد ${left} ث`; left--; };
+  const t = setInterval(tick, 1000); tick();
+}
+
+function afterLogin(){ const t = store.get('vm_after_login'); store.del('vm_after_login'); go(t || '#/'); }
+
+function bindView(name){
+  const root = $('#app'); bindCommon(root);
+
+  if (name === 'register'){
+    const f = $('#regForm'); const uni = $('#uni');
+    uni.onchange = () => { $('#uniOtherWrap').style.display = uni.value === '__other' ? 'block' : 'none'; };
+    $('#password').addEventListener('input', e => {
+      const n = e.target.value.length; const h = $('#pwHint');
+      h.textContent = n === 0 ? '8 أحرف أو أكثر' : n < 8 ? `باقي ${8 - n} أحرف` : 'ممتازة ✓';
+      h.style.color = n >= 8 ? 'var(--ok)' : '';
+    });
+    f.onsubmit = async e => {
+      e.preventDefault(); formError(f, '');
+      const name_ = $('#name').value.trim(), email = $('#email').value.trim().toLowerCase(), pw = $('#password').value;
+      const gender = (f.querySelector('input[name=gender]:checked') || {}).value;
+      const university = uni.value === '__other' ? $('#uniOther').value.trim() : uni.value;
+      const status = $('#status') ? $('#status').value : '';
+      let bad = false;
+      fieldError($('#name'), name_.length < 3 ? 'اكتب اسمك الكامل' : ''); bad ||= name_.length < 3;
+      fieldError($('#email'), validEmail(email) ? '' : 'البريد الإلكتروني غير صحيح'); bad ||= !validEmail(email);
+      fieldError($('#password'), pw.length < 8 ? 'كلمة المرور لازم تكون 8 أحرف أو أكثر' : ''); bad ||= pw.length < 8;
+      if (!gender) { formError(f, 'اختر: طالب أو طالبة'); bad = true; }
+      fieldError(uni, university ? '' : 'اختر الجامعة'); bad ||= !university;
+      if (!bad && !$('#agree').checked) { formError(f, 'لازم توافق على الشروط وسياسة الخصوصية'); bad = true; }
+      if (bad) return;
+      const btn = $('button[type=submit]', f); busy(btn, true);
+      const r = await api('register', { name: name_, email, password: pw, gender, university, status, ref: store.get('vm_ref', '') });
+      busy(btn, false);
+      if (!r.ok) { if (r.code === 'EMAIL_EXISTS') { store.set('vm_last_email', email); } return formError(f, r.error); }
+      S.pendingEmail = email; store.set('vm_pending_email', email); store.set('vm_last_email', email);
+      store.set('vm_code_sent_at', Date.now());
+      go('#/verify');
+    };
+  }
+
+  if (name === 'verify' && S.pendingEmail){
+    const f = $('#verifyForm'); let sending = false;
+    const code = bindOtp(f, () => f.requestSubmit());
+    const rb = $('#resend');
+    const since = (Date.now() - store.get('vm_code_sent_at', 0)) / 1000;
+    startResendTimer(rb, Math.max(0, Math.ceil(60 - since)));
+    rb.onclick = async () => {
+      busy(rb, true); const r = await api('resendCode', { email: S.pendingEmail }); busy(rb, false);
+      if (!r.ok) return toast(r.error, 'bad');
+      store.set('vm_code_sent_at', Date.now()); toast('أرسلنا رمز جديد', 'ok'); startResendTimer(rb);
+    };
+    f.onsubmit = async e => {
+      e.preventDefault(); if (sending) return; formError(f, '');
+      const c = code(); if (c.length < 6) return formError(f, 'اكتب الرمز كامل (6 أرقام)');
+      sending = true; const btn = $('button[type=submit]', f); busy(btn, true);
+      const r = await api('verifyEmail', { email: S.pendingEmail, code: c });
+      busy(btn, false); sending = false;
+      if (!r.ok) { $$('.otp input', f).forEach(x => x.value = ''); $('.otp input', f).focus();
+        if (r.code === 'ALREADY_VERIFIED') { toast(r.error); return go('#/login'); }
+        return formError(f, r.error); }
+      store.del('vm_pending_email'); S.pendingEmail = ''; store.del('vm_ref');
+      setSession(r.data.token, r.data.user, r.data.balance);
+      afterLogin();
+      welcomeCoffee(r.data.balance.free);
+    };
+  }
+
+  if (name === 'login' || (name === 'verify' && !S.pendingEmail)){
+    const f = $('#loginForm');
+    f.onsubmit = async e => {
+      e.preventDefault(); formError(f, '');
+      const email = $('#email').value.trim().toLowerCase(), pw = $('#password').value;
+      if (!validEmail(email)) return fieldError($('#email'), 'البريد الإلكتروني غير صحيح');
+      if (!pw) return fieldError($('#password'), 'اكتب كلمة المرور');
+      const btn = $('button[type=submit]', f); busy(btn, true);
+      const r = await api('login', { email, password: pw });
+      busy(btn, false);
+      if (!r.ok) return formError(f, r.error);
+      store.set('vm_last_email', email);
+      if (r.data.needVerify) { S.pendingEmail = email; store.set('vm_pending_email', email); store.set('vm_code_sent_at', Date.now());
+        toast('حسابك يحتاج تفعيل، أرسلنا لك رمز'); return go('#/verify'); }
+      setSession(r.data.token, r.data.user, r.data.balance);
+      toast(`أهلاً ${firstName()}`, 'ok'); afterLogin();
+    };
+  }
+
+  if (name === 'forgot' || (name === 'reset' && !store.get('vm_reset_email'))){
+    const f = $('#forgotForm');
+    f.onsubmit = async e => {
+      e.preventDefault(); formError(f, '');
+      const email = $('#email').value.trim().toLowerCase();
+      if (!validEmail(email)) return fieldError($('#email'), 'البريد الإلكتروني غير صحيح');
+      const btn = $('button[type=submit]', f); busy(btn, true);
+      const r = await api('requestReset', { email }); busy(btn, false);
+      if (!r.ok) return formError(f, r.error);
+      store.set('vm_reset_email', email); go('#/reset');
+    };
+  }
+
+  if (name === 'reset' && store.get('vm_reset_email')){
+    const f = $('#resetForm'); const code = bindOtp(f, () => $('#password').focus());
+    f.onsubmit = async e => {
+      e.preventDefault(); formError(f, '');
+      const c = code(), pw = $('#password').value;
+      if (c.length < 6) return formError(f, 'اكتب الرمز كامل (6 أرقام)');
+      if (pw.length < 8) return fieldError($('#password'), 'كلمة المرور لازم تكون 8 أحرف أو أكثر');
+      const btn = $('button[type=submit]', f); busy(btn, true);
+      const r = await api('resetPassword', { email: store.get('vm_reset_email'), code: c, newPassword: pw }); busy(btn, false);
+      if (!r.ok) return formError(f, r.error);
+      store.set('vm_last_email', store.get('vm_reset_email')); store.del('vm_reset_email');
+      toast('تم تغيير كلمة المرور، سجّل دخولك', 'ok'); go('#/login');
+    };
+  }
+
+  if (name === 'account'){
+    $('#logoutBtn').onclick = () => signOut(false);
+    const ib = $('#installBtn');
+    if (ib) ib.onclick = async () => {
+      if (window.__installPrompt) { window.__installPrompt.prompt(); window.__installPrompt = null; return; }
+      const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      sheet(`<h3>أضف فيرميد للشاشة الرئيسية</h3>
+        <ol style="padding-right:20px;line-height:2.1;margin:12px 0 20px">${ios
+          ? '<li>اضغط زر المشاركة أسفل Safari</li><li>اختر «إضافة إلى الشاشة الرئيسية»</li><li>اضغط «إضافة»</li>'
+          : '<li>افتح قائمة المتصفح (⋮) فوق</li><li>اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية»</li>'}</ol>
+        <button class="btn primary block" data-close>تمام</button>`);
+    };
+  }
+}
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); window.__installPrompt = e; });
+
+/* ═════════════════════ التشغيل ═════════════════════ */
+(function init(){
+  applyTheme();
+  const ref = new URLSearchParams(location.search).get('ref');
+  if (ref) { store.set('vm_ref', ref.toUpperCase().slice(0, 12)); history.replaceState(null, '', location.pathname + location.hash); }
+  if (!navigator.onLine) $('#offline').classList.add('show');
+  if (!apiReady) toast('ضعي رابط الخادم في ملف config.js', 'bad', 8000);
+  if (!S.token && S.boot && S.boot.user) saveBoot({ ...S.boot, user:null, balance:null });
+  const hideSplash = () => { const s = $('#splash'); if (s) { s.style.opacity = '0'; setTimeout(() => s.remove(), 350); } };
+  if (S.boot) { render(); hideSplash(); refresh(); }          // فتح فوري من آخر نسخة محفوظة، ثم تحديث بالخلفية
+  else { refresh().then(() => { if (!$('#app').innerHTML) render(); hideSplash(); }); }
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+})();
+</script>
+</body>
+</html>
