@@ -52,11 +52,8 @@
 
     .navbar { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px); }
     .nav-container { max-width: 1000px; margin: auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-    .nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
-    .nav-brand img { height: 32px; width: auto; }
-    .nav-brand-text { direction: ltr; font-weight: 700; font-size: 20px; color: var(--navy); }
-    body.dark .nav-brand-text { color: #FFF; }
-    .nav-brand-text span { color: var(--teal); }
+    .nav-brand { display: flex; align-items: center; text-decoration: none; }
+    .nav-brand img { height: 36px; width: auto; display: block; }
 
     .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
     .nav-link { color: var(--text-muted); text-decoration: none; padding: 8px 14px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; cursor: pointer; transition: var(--transition); border: none; background: transparent; font-family: inherit; }
@@ -114,7 +111,7 @@
 
     .sources-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
     .sources-table th, .sources-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: right; }
-    .sources-table th { background: var(--navy); color: #FFF; font-weight: 600; border-radius: 4px; }
+    .sources-table th { background: var(--navy); color: #FFF; font-weight: 600; }
     body.dark .sources-table th { background: #1E2836; }
 
     .high-yield { background: var(--teal-light); border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 14px; }
@@ -147,8 +144,7 @@
   <header class="navbar">
     <div class="nav-container">
       <a href="#" class="nav-brand" onclick="showView('landing'); return false;">
-        <img src="logo.svg" alt="Verimed" onerror="this.style.display='none'">
-        <div class="nav-brand-text"><span>V</span>erimed</div>
+        <img src="logo.svg" alt="Verimed">
       </a>
       
       <ul class="nav-links">
@@ -166,7 +162,7 @@
           </svg>
         </button>
 
-        <!-- زر الحساب بالأيقونة -->
+        <!-- زر الحساب -->
         <div id="authNavButtons">
           <button class="btn btn-teal btn-sm" onclick="openModal('authModal')">تسجيل الدخول</button>
         </div>
