@@ -11,174 +11,162 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-  <!-- الخطوط الرسمية -->
+  <!-- خط ناعم وانسيابي بدون حواف حادة -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- مكتبة تسجيل الدخول السريع بقوقل -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
     :root {
       --teal: #2E7D7B;
-      --teal-hover: #256664;
+      --teal-hover: #246361;
       --teal-light: rgba(46, 125, 123, 0.08);
       --navy: #2D3A4A;
-      --navy-dark: #1F2A38;
-      --bg: #F8F9F7;
+      --bg: #F8FAF9;
       --card: #FFFFFF;
-      --border: #E2E8F0;
-      --text: #1F2A44;
-      --text-muted: #5A6A80;
-      --danger: #DC2626;
-      --warning: #D97706;
-      --success: #16A34A;
-      --radius-sm: 8px;
-      --radius: 14px;
-      --radius-lg: 20px;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow: 0 4px 12px rgba(0,0,0,0.06);
-      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
-      --transition: all 0.25s ease;
+      --border: #E5E9EB;
+      --text: #202A36;
+      --text-muted: #64748B;
+      --radius-sm: 10px;
+      --radius: 18px;
+      --radius-pill: 9999px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.04);
+      --transition: all 0.2s ease-in-out;
     }
 
     body.dark {
-      --bg: #141A24;
-      --card: #1E2634;
-      --border: #2D3A4A;
+      --bg: #111720;
+      --card: #1A222E;
+      --border: #2A3647;
       --text: #F1F5F9;
       --text-muted: #94A3B8;
-      --shadow: 0 4px 12px rgba(0,0,0,0.2);
+      --shadow: 0 4px 20px rgba(0,0,0,0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Tajawal', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s ease, color 0.3s ease; }
+    body { font-family: 'Readex Pro', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s ease, color 0.3s ease; }
 
-    h1, h2, h3, .font-heading { font-family: 'Cairo', sans-serif; }
-    .font-en { font-family: 'Inter', sans-serif; }
-
-    /* شريط التنبيهات العلوي */
     #announcementBar { background: var(--navy); color: #FFF; padding: 8px 16px; text-align: center; font-size: 13px; font-weight: 500; display: none; }
 
-    /* شريط التنقل */
     .navbar { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px); }
-    .nav-container { max-width: 1100px; margin: auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--navy); font-weight: 800; font-size: 20px; }
+    .nav-container { max-width: 1000px; margin: auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
     .nav-brand img { height: 32px; width: auto; }
-    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
-    .nav-link { color: var(--text-muted); text-decoration: none; padding: 8px 14px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; transition: var(--transition); border: none; background: transparent; }
+    .nav-brand-text { direction: ltr; font-weight: 700; font-size: 20px; color: var(--navy); }
+    body.dark .nav-brand-text { color: #FFF; }
+    .nav-brand-text span { color: var(--teal); }
+
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-link { color: var(--text-muted); text-decoration: none; padding: 8px 14px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; cursor: pointer; transition: var(--transition); border: none; background: transparent; font-family: inherit; }
     .nav-link:hover, .nav-link.active { color: var(--teal); background: var(--teal-light); }
-    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-icon { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
+    .btn-icon:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }
 
-    /* الحاوية الأساسية والتبويبات */
-    .main-container { max-width: 1100px; width: 100%; margin: auto; padding: 24px 20px 60px; flex: 1; }
+    .main-container { max-width: 1000px; width: 100%; margin: auto; padding: 24px 20px 60px; flex: 1; }
     .view-section { display: none; }
-    .view-section.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .view-section.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* الأزرار العامة */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: var(--transition); text-decoration: none; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 22px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: var(--transition); text-decoration: none; font-family: inherit; }
     .btn-teal { background: var(--teal); color: #FFF; }
     .btn-teal:hover { background: var(--teal-hover); }
     .btn-outline { border-color: var(--border); background: transparent; color: var(--text); }
     .btn-outline:hover { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
-    .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
     .btn-block { width: 100%; }
 
-    /* البطاقات والمدخلات */
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 20px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
     .form-group { margin-bottom: 16px; }
-    .form-label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+    .form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
     .form-control { width: 100%; padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: var(--transition); }
     .form-control:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-light); }
     textarea.form-control { min-height: 130px; resize: vertical; }
 
-    /* صفحة البداية الرئيسية */
-    .hero { text-align: center; padding: 40px 10px 50px; }
-    .hero h1 { font-size: 34px; color: var(--navy); margin-bottom: 14px; line-height: 1.3; }
+    .hero { text-align: center; padding: 40px 10px 45px; }
+    .hero h1 { font-size: 32px; font-weight: 700; color: var(--navy); margin-bottom: 12px; line-height: 1.4; }
     body.dark .hero h1 { color: #FFF; }
-    .hero p { font-size: 16px; color: var(--text-muted); max-width: 680px; margin: auto; margin-bottom: 24px; line-height: 1.8; }
-    .hero-badge { display: inline-block; background: var(--teal-light); color: var(--teal); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+    .hero p { font-size: 15px; color: var(--text-muted); max-width: 640px; margin: auto; margin-bottom: 24px; line-height: 1.8; }
+    .hero-badge { display: inline-block; background: var(--teal-light); color: var(--teal); padding: 6px 16px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 600; margin-bottom: 16px; }
 
-    /* باقات الاشتراك */
-    .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 30px; }
+    .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 24px; }
     .pkg-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; position: relative; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between; }
     .pkg-card.highlight { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal); }
-    .pkg-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--teal); color: #FFF; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
-    .pkg-price { font-size: 32px; font-weight: 800; color: var(--navy); margin: 16px 0 8px; }
+    .pkg-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--teal); color: #FFF; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: var(--radius-pill); }
+    .pkg-price { font-size: 30px; font-weight: 700; color: var(--navy); margin: 14px 0 6px; }
     body.dark .pkg-price { color: #FFF; }
-    .pkg-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+    .pkg-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
 
-    /* محرك الإجابة (صفحة اسأل) */
-    .ask-box-header { display: flex; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
-    .ask-box-header .form-group { flex: 1; min-width: 180px; margin-bottom: 0; }
+    .ask-box-header { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .ask-box-header .form-group { flex: 1; min-width: 170px; margin-bottom: 0; }
     .counter-bar { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: 6px; }
     
-    /* مخرجات الإجابة والجدول */
     .res-card { border-right: 4px solid var(--teal); display: none; }
     .res-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
-    .res-section { margin-bottom: 18px; }
-    .res-title { font-size: 14px; font-weight: 700; color: var(--teal); margin-bottom: 6px; text-transform: uppercase; }
+    .res-section { margin-bottom: 16px; }
+    .res-title { font-size: 13px; font-weight: 600; color: var(--teal); margin-bottom: 4px; }
     .res-rec-text { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.6; }
     body.dark .res-rec-text { color: #FFF; }
     .res-reasoning { font-size: 14px; color: var(--text); line-height: 1.8; }
 
-    /* جدول المصادر المعتمد */
-    .sources-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+    .sources-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
     .sources-table th, .sources-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: right; }
-    .sources-table th { background: var(--navy); color: #FFF; font-weight: 700; }
-    body.dark .sources-table th { background: #182230; }
+    .sources-table th { background: var(--navy); color: #FFF; font-weight: 600; border-radius: 4px; }
+    body.dark .sources-table th { background: #1E2836; }
 
-    /* نقاط High-Yield */
     .high-yield { background: var(--teal-light); border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 14px; }
     .high-yield ul { padding-right: 18px; margin-top: 6px; font-size: 13px; line-height: 1.7; }
 
-    /* شريط الإجراءات والتقييم العفوي */
-    .res-actions { display: flex; gap: 10px; margin-top: 18px; align-items: center; flex-wrap: wrap; }
-    .feedback-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; margin-top: 16px; display: none; }
+    .res-actions { display: flex; gap: 8px; margin-top: 18px; align-items: center; flex-wrap: wrap; }
+    .feedback-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; margin-top: 14px; display: none; }
 
-    /* حالة التحميل المتحركة */
-    .loading-state { text-align: center; padding: 40px 20px; display: none; }
-    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    .loading-state { text-align: center; padding: 36px 20px; display: none; }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* النوافذ المنبثقة (Modals) */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
     .modal-overlay.active { display: flex; }
-    .modal-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); width: 100%; max-width: 440px; padding: 28px; position: relative; box-shadow: var(--shadow-lg); animation: pop 0.2s ease-out; }
-    @keyframes pop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .modal-close { position: absolute; top: 18px; left: 18px; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+    .modal-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); width: 100%; max-width: 420px; padding: 26px; position: relative; box-shadow: var(--shadow); }
+    .modal-close { position: absolute; top: 16px; left: 16px; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
 
-    /* الفوتر */
     .footer { border-top: 1px solid var(--border); padding: 24px 20px; text-align: center; font-size: 12px; color: var(--text-muted); margin-top: auto; }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .nav-links.mobile-open { display: flex; position: absolute; top: 100%; left: 0; right: 0; background: var(--card); flex-direction: column; padding: 16px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow); }
-      .hero h1 { font-size: 26px; }
+      .hero h1 { font-size: 25px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- شريط الإعلان -->
   <div id="announcementBar"></div>
 
-  <!-- الهيدر والتنقل -->
   <header class="navbar">
     <div class="nav-container">
       <a href="#" class="nav-brand" onclick="showView('landing'); return false;">
-        <span style="color:var(--teal)">V</span>erimed
+        <img src="logo.svg" alt="Verimed" onerror="this.style.display='none'">
+        <div class="nav-brand-text"><span>V</span>erimed</div>
       </a>
-      <ul class="nav-links" id="navLinks">
+      
+      <ul class="nav-links">
         <li><button class="nav-link active" onclick="showView('landing')">الرئيسية</button></li>
         <li><button class="nav-link" onclick="showView('ask')">اسأل</button></li>
         <li><button class="nav-link" onclick="showView('history')">سجل الأسئلة</button></li>
         <li><button class="nav-link" onclick="showView('packages')">الباقات</button></li>
       </ul>
+
       <div class="nav-actions">
-        <button class="btn btn-outline btn-sm" onclick="toggleTheme()" id="themeBtn" title="تبديل الوضع">الوضع الليلي</button>
+        <!-- زر الهلال للوضع الليلي -->
+        <button class="btn-icon" onclick="toggleTheme()" id="themeBtn" title="تبديل الوضع">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- زر الحساب بالأيقونة -->
         <div id="authNavButtons">
           <button class="btn btn-teal btn-sm" onclick="openModal('authModal')">تسجيل الدخول</button>
         </div>
@@ -186,35 +174,34 @@
     </div>
   </header>
 
-  <!-- الحاوية الأساسية -->
   <main class="main-container">
 
-    <!-- 1. الواجهة الرئيسية -->
+    <!-- 1. الرئيسية -->
     <section id="view-landing" class="view-section active">
       <div class="hero">
-        <span class="hero-badge font-heading" id="heroFreeLine">ضيافتك 5 أسئلة مجانية</span>
+        <span class="hero-badge" id="heroFreeLine">ضيافتك 5 أسئلة مجانية</span>
         <h1 id="heroTitle">الإجابة الموثوقة لاختبار SMLE</h1>
         <p id="heroSub">اسأل عن أي سؤال أو حالة سريرية، ونقارن لك إجابات المراجع وبنوك الأسئلة فوراً، مع الإجابة الموثقة ونقاط High-Yield للمراجعة.</p>
-        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-teal" onclick="handleStartAsk()">ابدأ بالسؤال الآن</button>
           <button class="btn btn-outline" onclick="showView('packages')">استعراض الباقات</button>
         </div>
       </div>
 
-      <div class="card" style="text-align:center; padding:32px 20px;">
-        <h3 style="color:var(--navy); margin-bottom:12px;">كيف يشتغل فيرميد؟</h3>
-        <p style="color:var(--text-muted); max-width:700px; margin:auto; font-size:14px; line-height:1.8;">
+      <div class="card" style="text-align:center; padding:30px 20px;">
+        <h3 style="color:var(--navy); margin-bottom:10px; font-size:18px;">كيف يشتغل فيرميد؟</h3>
+        <p style="color:var(--text-muted); max-width:680px; margin:auto; font-size:14px; line-height:1.8;">
           نظام ذكي يربط المراجع الطبية المعتمدة وملاحظات التجميعات في واجهة واحدة. نتحقق من صحة الحالة، نستبعد الخيارات الضعيفة، ونعطيك إجماع المراجع الموثقة بدون تشتت.
         </p>
       </div>
 
       <div class="card">
-        <h3 style="margin-bottom:16px; color:var(--navy);">الأسئلة الشائعة</h3>
+        <h3 style="margin-bottom:14px; color:var(--navy); font-size:18px;">الأسئلة الشائعة</h3>
         <div id="faqList"></div>
       </div>
     </section>
 
-    <!-- 2. صفحة «اسأل» التفاعلية -->
+    <!-- 2. صفحة اسأل التفاعلية -->
     <section id="view-ask" class="view-section">
       <div class="card">
         <div class="ask-box-header">
@@ -246,13 +233,11 @@
         </div>
       </div>
 
-      <!-- مؤشر الانتظار -->
       <div class="card loading-state" id="askLoading">
         <div class="spinner"></div>
-        <p id="loadingMsgText" style="font-weight:700; color:var(--teal);">قاعد أبحث لك في المراجع المعتمدة...</p>
+        <p id="loadingMsgText" style="font-weight:600; color:var(--teal);">قاعد أبحث لك في المراجع المعتمدة...</p>
       </div>
 
-      <!-- صندوق النتيجة -->
       <div class="card res-card" id="askResult">
         <div class="res-top">
           <span class="hero-badge" id="resSpecialtyBadge">عام</span>
@@ -288,16 +273,14 @@
           <ul id="resHighYieldList"></ul>
         </div>
 
-        <!-- التقييم العفوي -->
         <div class="feedback-box" id="feedbackPromptBox">
-          <span id="feedbackPromptText" style="font-weight:700; display:block; margin-bottom:8px;">هاه بشّر، لقيت اللي تبي؟</span>
+          <span id="feedbackPromptText" style="font-weight:600; display:block; margin-bottom:8px;">هاه بشّر، لقيت اللي تبي؟</span>
           <div style="display:flex; gap:8px;">
-            <button class="btn btn-outline btn-sm" onclick="sendRating('up')">واضحة ومفيدة</button>
+            <button class="btn btn-outline btn-sm" onclick="sendRating('up')">واضحة ومفيدة ✓</button>
             <button class="btn btn-outline btn-sm" onclick="sendRating('down')">تحتاج توضيح</button>
           </div>
         </div>
 
-        <!-- الإجراءات -->
         <div class="res-actions">
           <button class="btn btn-outline btn-sm" id="btnFavorite" onclick="toggleCurrentFavorite()">حفظ في المفضلة</button>
           <button class="btn btn-outline btn-sm" onclick="openReportModal()">الإجابة غير دقيقة</button>
@@ -306,10 +289,10 @@
       </div>
     </section>
 
-    <!-- 3. سجل الأسئلة والمفضلة -->
+    <!-- 3. سجل الأسئلة -->
     <section id="view-history" class="view-section">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h2>سجل الأسئلة والمذاكرة</h2>
+        <h2 style="font-size:20px;">سجل الأسئلة والمذاكرة</h2>
         <div style="display:flex; gap:6px;">
           <button class="btn btn-sm btn-teal" id="tabHistAll" onclick="loadHistory(false)">الكل</button>
           <button class="btn btn-sm btn-outline" id="tabHistFav" onclick="loadHistory(true)">المفضلة فقط</button>
@@ -322,9 +305,9 @@
 
     <!-- 4. الباقات -->
     <section id="view-packages" class="view-section">
-      <div style="text-align:center; margin-bottom:30px;">
-        <h2>باقات الاشتراك والاستعداد</h2>
-        <p style="color:var(--text-muted);">اختر الباقة المناسبة لخطة مذاكرتك لاختبار SMLE.</p>
+      <div style="text-align:center; margin-bottom:24px;">
+        <h2 style="font-size:22px;">باقات الاشتراك والاستعداد</h2>
+        <p style="color:var(--text-muted); font-size:14px;">اختر الباقة المناسبة لخطة مذاكرتك لاختبار SMLE.</p>
       </div>
       <div class="packages-grid" id="packagesGrid"></div>
     </section>
@@ -332,12 +315,12 @@
     <!-- 5. حسابي -->
     <section id="view-profile" class="view-section">
       <div class="card">
-        <h2 style="margin-bottom:18px;">بيانات الحساب</h2>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:20px;">
-          <div><span style="font-size:12px; color:var(--text-muted);">الاسم</span><p id="profName" style="font-weight:700;">-</p></div>
+        <h2 style="margin-bottom:16px; font-size:20px;">بيانات الحساب</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:16px; margin-bottom:20px;">
+          <div><span style="font-size:12px; color:var(--text-muted);">الاسم</span><p id="profName" style="font-weight:600;">-</p></div>
           <div><span style="font-size:12px; color:var(--text-muted);">البريد الإلكتروني</span><p id="profEmail">-</p></div>
           <div><span style="font-size:12px; color:var(--text-muted);">الجامعة والمرحلة</span><p id="profUniStatus">-</p></div>
-          <div><span style="font-size:12px; color:var(--text-muted);">كود الإحالة الخاص بك</span><p id="profRef" style="font-weight:700; color:var(--teal);">-</p></div>
+          <div><span style="font-size:12px; color:var(--text-muted);">كود الإحالة</span><p id="profRef" style="font-weight:700; color:var(--teal);">-</p></div>
         </div>
         <button class="btn btn-outline btn-sm" onclick="logout()">تسجيل الخروج</button>
       </div>
@@ -349,9 +332,9 @@
   <div class="modal-overlay" id="authModal">
     <div class="modal-card">
       <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
-      <h3 style="margin-bottom:14px; color:var(--navy);" id="authModalTitle">تسجيل الدخول إلى فيرميد</h3>
+      <h3 style="margin-bottom:14px; color:var(--navy); font-size:18px;" id="authModalTitle">تسجيل الدخول إلى فيرميد</h3>
       
-      <div id="googleBtnContainer" style="margin-bottom:16px; display:flex; justify-content:center;"></div>
+      <div id="googleBtnContainer" style="margin-bottom:14px; display:flex; justify-content:center;"></div>
       
       <div style="text-align:center; position:relative; margin:16px 0;">
         <hr style="border:none; border-top:1px solid var(--border);">
@@ -394,7 +377,7 @@
         
         <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:12px;">
           <a href="#" style="color:var(--teal); text-decoration:none;" id="authSwitchModeBtn" onclick="toggleAuthMode(); return false;">حساب جديد؟ سجّل الآن</a>
-          <a href="#" style="color:var(--text-muted); text-decoration:none;" onclick="alert('استخدم بريدك المسجل وتواصل معنا لتغييرها'); return false;">نسيت كلمة المرور؟</a>
+          <a href="#" style="color:var(--text-muted); text-decoration:none;" onclick="alert('تواصل مع الدعم الفني لاستعادة كلمة المرور'); return false;">نسيت كلمة المرور؟</a>
         </div>
       </div>
     </div>
@@ -403,7 +386,7 @@
   <!-- نافذة إكمال ملف قوقل -->
   <div class="modal-overlay" id="completeProfileModal">
     <div class="modal-card">
-      <h3 style="color:var(--navy); margin-bottom:8px;">أهلاً بك في فيرميد</h3>
+      <h3 style="color:var(--navy); margin-bottom:8px; font-size:18px;">أهلاً بك في فيرميد</h3>
       <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">خطوة واحدة أخيرة لتخصيص تجربتك وصرف الأسئلة المجانية.</p>
       <div class="form-group">
         <label class="form-label">الصفة الأكاديمية</label>
@@ -427,9 +410,9 @@
   <!-- نافذة ترحيب القهوة -->
   <div class="modal-overlay" id="welcomeCoffeeModal">
     <div class="modal-card" style="text-align:center; padding:32px 24px;">
-      <div style="width:50px; height:50px; background:var(--teal-light); border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; color:var(--teal); font-weight:800; font-size:22px;">V</div>
-      <h3 id="welcomeCoffeeTitle" style="color:var(--navy); margin-bottom:10px;">حيّاك الله</h3>
-      <p id="welcomeCoffeeText" style="color:var(--text-muted); font-size:14px; line-height:1.7; margin-bottom:20px;">لأن طبعنا الكرم، ضيافتك 5 أسئلة مجانية والقهوة علينا.</p>
+      <div style="width:48px; height:48px; background:var(--teal-light); border-radius:50%; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; color:var(--teal); font-weight:700; font-size:20px;">V</div>
+      <h3 id="welcomeCoffeeTitle" style="color:var(--navy); margin-bottom:8px; font-size:18px;">حيّاك الله</h3>
+      <p id="welcomeCoffeeText" style="color:var(--text-muted); font-size:14px; line-height:1.7; margin-bottom:18px;">لأن طبعنا الكرم، ضيافتك 5 أسئلة مجانية والقهوة علينا.</p>
       <button class="btn btn-teal btn-block" onclick="closeModal('welcomeCoffeeModal'); showView('ask');">يلا نبدأ</button>
     </div>
   </div>
@@ -438,7 +421,7 @@
   <div class="modal-overlay" id="verifyModal">
     <div class="modal-card">
       <button class="modal-close" onclick="closeModal('verifyModal')">&times;</button>
-      <h3 style="margin-bottom:8px; color:var(--navy);">تفعيل البريد الإلكتروني</h3>
+      <h3 style="margin-bottom:8px; color:var(--navy); font-size:18px;">تفعيل البريد الإلكتروني</h3>
       <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">أدخل رمز التحقق المكون من 6 أرقام المرسل إلى بريدك.</p>
       <div class="form-group">
         <input type="text" class="form-control" id="verifyCodeInput" maxlength="6" style="letter-spacing:6px; text-align:center; font-size:20px; font-weight:700;">
@@ -451,7 +434,7 @@
   <div class="modal-overlay" id="reportModal">
     <div class="modal-card">
       <button class="modal-close" onclick="closeModal('reportModal')">&times;</button>
-      <h3 style="margin-bottom:8px; color:var(--navy);">الإبلاغ عن إجابة غير دقيقة</h3>
+      <h3 style="margin-bottom:8px; color:var(--navy); font-size:18px;">الإبلاغ عن إجابة غير دقيقة</h3>
       <div class="form-group">
         <label class="form-label">سبب الملاحظة</label>
         <select class="form-control" id="reportReasonSelect"></select>
@@ -464,9 +447,8 @@
     </div>
   </div>
 
-  <!-- الفوتر -->
   <footer class="footer">
-    <div style="max-width:1100px; margin:auto;">
+    <div style="max-width:1000px; margin:auto;">
       <p id="footerDisclaimer">منصة مستقلة وغير تابعة للهيئة السعودية للتخصصات الصحية. مخصصة للمذاكرة فقط.</p>
     </div>
   </footer>
@@ -626,10 +608,7 @@
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
 
-      if (!email || !password) {
-        alert('الرجاء كتابة البريد وكلمة المرور');
-        return;
-      }
+      if (!email || !password) return alert('الرجاء كتابة البريد وكلمة المرور');
 
       if (APP_STATE.isRegisterMode) {
         const name = document.getElementById('regName').value.trim();
@@ -824,7 +803,7 @@
               <span>${item.specialty} · ${item.answerLength === 'brief' ? 'مختصرة' : 'مفصلة'}</span>
               <span>${item.timestamp ? new Date(item.timestamp).toLocaleDateString('ar-SA') : ''}</span>
             </div>
-            <p style="font-weight:700; margin-bottom:8px;">${item.question}</p>
+            <p style="font-weight:600; margin-bottom:8px;">${item.question}</p>
             <div style="background:var(--bg); border-radius:6px; padding:10px; font-size:13px; line-height:1.6;">
               <strong>الإجابة:</strong> ${item.answer ? item.answer.recommendedAnswer : ''}
             </div>
@@ -881,7 +860,13 @@
     function renderAuthButtons(isLoggedIn) {
       const container = document.getElementById('authNavButtons');
       if (isLoggedIn) {
-        container.innerHTML = `<button class="btn btn-outline btn-sm" onclick="showView('profile')">حسابي</button>`;
+        container.innerHTML = `
+          <button class="btn-icon" onclick="showView('profile')" title="حسابي">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>`;
       } else {
         container.innerHTML = `<button class="btn btn-teal btn-sm" onclick="openModal('authModal')">تسجيل الدخول</button>`;
       }
@@ -893,20 +878,20 @@
         <div class="pkg-card ${p.id === 'P3' ? 'highlight' : ''}">
           ${p.id === 'P3' ? '<div class="pkg-badge">أفضل قيمة</div>' : ''}
           <div>
-            <h3 style="color:var(--navy);">${p.name}</h3>
-            <div class="pkg-price font-en">${p.price} <span style="font-size:16px;">ريال</span></div>
+            <h3 style="color:var(--navy); font-size:18px;">${p.name}</h3>
+            <div class="pkg-price">${p.price} <span style="font-size:15px; font-weight:normal;">ريال</span></div>
             <div class="pkg-meta">${p.questions} سؤال · مدة ${p.days} يوم</div>
             <p style="font-size:13px; color:var(--text-muted);">${p.features}</p>
           </div>
-          <button class="btn btn-teal btn-block" style="margin-top:20px;" onclick="alert('بوابة الدفع قيد التفعيل في المرحلة القادمة.')">اختيار الباقة</button>
+          <button class="btn btn-teal btn-block" style="margin-top:16px;" onclick="alert('بوابة الدفع قيد التفعيل في المرحلة القادمة.')">اختيار الباقة</button>
         </div>
       `).join('');
     }
 
     function renderFAQ(faqs) {
       document.getElementById('faqList').innerHTML = faqs.map(f => `
-        <div style="border-bottom:1px solid var(--border); padding:14px 0;">
-          <h4 style="font-size:15px; color:var(--navy); margin-bottom:6px;">${f.q}</h4>
+        <div style="border-bottom:1px solid var(--border); padding:12px 0;">
+          <h4 style="font-size:14px; color:var(--navy); margin-bottom:4px;">${f.q}</h4>
           <p style="font-size:13px; color:var(--text-muted); line-height:1.7;">${f.a}</p>
         </div>
       `).join('');
@@ -926,9 +911,7 @@
 
     function toggleTheme() {
       document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      document.getElementById('themeBtn').innerText = isDark ? 'الوضع النهاري' : 'الوضع الليلي';
-      localStorage.setItem('vm_theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('vm_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
     }
 
     function getQueryParam(p) {
