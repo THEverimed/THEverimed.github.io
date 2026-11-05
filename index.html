@@ -386,7 +386,6 @@ function viewLogin(){
 }
 
 function viewRegister(){
-  const unis = S.boot?.universities || [];
   return `<div class="card narrow" style="margin:24px auto">
     <h2 style="color:var(--primary);margin-bottom:6px">إنشاء حساب جديد</h2>
     <p style="color:var(--muted);font-size:13.5px;margin-bottom:18px">ضيافتك 5 أسئلة مجانية فور التفعيل (القهوة علينا ☕️)</p>
@@ -395,17 +394,10 @@ function viewRegister(){
       <div class="field"><span>البريد الإلكتروني</span><input class="input" type="email" id="regEmail" required placeholder="name@example.com"></div>
       <div class="field"><span>كلمة المرور</span><input class="input" type="password" id="regPw" required placeholder="8 أحرف أو أكثر"></div>
       <div class="field"><span>أنا</span>
-        <div style="display:flex;gap:12px">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="gender" value="male" checked> طالب</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="gender" value="female"> طالبة</label>
+        <div style="display:flex;gap:14px">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="gender" value="male" checked> طبيب / طالب</label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="gender" value="female"> طبيبة / طالبة</label>
         </div>
-      </div>
-      <div class="field"><span>الجامعة الطبية</span>
-        <select class="input" id="regUni" required>
-          <option value="" disabled selected>اختر جامعتك</option>
-          ${unis.map(u => `<option value="${esc(typeof u==='string'?u:u.name_ar||u.name)}">${esc(typeof u==='string'?u:u.name_ar||u.name)}</option>`).join('')}
-          <option value="other">أخرى / خريج خارج المملكة</option>
-        </select>
       </div>
       <button class="btn primary block" type="submit" style="margin-top:8px">تأكيد وإنشاء الحساب</button>
     </form>
@@ -458,7 +450,7 @@ function viewAccount(){
       <div>
         <h3 style="font-size:16px;margin:0">${esc(u.name || 'طبيب فيرميد')}</h3>
         <p style="color:var(--muted);font-size:13px;margin:0" class="ltr">${esc(u.email || '')}</p>
-        <span style="font-size:12px;color:var(--primary)">${esc(u.university || '')}</span>
+        ${u.university ? `<span style="font-size:12px;color:var(--primary)">${esc(u.university)}</span>` : ''}
       </div>
     </div>
 
@@ -497,9 +489,8 @@ function bindView(path){
       e.preventDefault();
       const name = $('#regName').value.trim(), email = $('#regEmail').value.trim(), password = $('#regPw').value;
       const gender = document.querySelector('input[name="gender"]:checked')?.value || 'male';
-      const university = $('#regUni').value;
       if (!name || !email || !password) return toast('يرجى تعبئة كافة الحقول', 'bad');
-      const r = await api('register', { name, email, password, gender, university });
+      const r = await api('register', { name, email, password, gender });
       if (!r.ok) return toast(r.error || 'تعذر التسجيل', 'bad');
       store.set('vm_pending_email', email);
       toast('تم التسجيل! أرسلنا رمز التحقق لبريدك ✉️', 'ok');
