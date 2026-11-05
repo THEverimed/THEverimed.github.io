@@ -1,5 +1,5 @@
 // يخلي الموقع يفتح بسرعة ويشتغل كتطبيق. لا يحفظ أي بيانات من الخادم.
-const CACHE = 'verimed-v1';
+const CACHE = 'verimed-v2';
 const SHELL = ['./', 'index.html', 'config.js', 'logo.svg', 'logo-dark.svg', 'favicon.svg', 'icon-192.png'];
 
 self.addEventListener('install', e => {
