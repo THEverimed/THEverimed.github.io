@@ -2,15 +2,22 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
   <title>Verimed — الإجابة الموثوقة لاختبار SMLE</title>
+  <meta name="theme-color" content="#2E7D7B">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <script src="config.js"></script>
   <style>
-    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #F8FAF9; }
-    iframe { width: 100%; height: 100%; border: none; display: block; }
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #F6F7F7; }
+    #app { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; border: 0; display: block; }
+    #fallback { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; flex-direction: column; gap: 14px;
+      font-family: Tajawal, system-ui, sans-serif; color: #132026; text-align: center; padding: 24px; }
+    #fallback a { background: #2E7D7B; color: #fff; padding: 12px 22px; border-radius: 12px; text-decoration: none; font-weight: 700; }
+    @media (prefers-color-scheme: dark) { html, body { background: #0E1519; } #fallback { color: #F1F5F7; } }
   </style>
   <script>
-    // إلغاء أي كاش قديم في المتصفح فوراً
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
     }
@@ -20,6 +27,27 @@
   </script>
 </head>
 <body>
-  <iframe src="https://script.google.com/macros/s/AKfycbz3mHc5Am82iLeSYIT_OAeVEaE8LRYUR6HD6G0mP0FL_Mx8uBPFyvST95Mb4pr09cTkpw/exec" allow="clipboard-read; clipboard-write"></iframe>
+  <iframe id="app" title="Verimed"
+    allow="clipboard-read; clipboard-write; fullscreen; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
+  <div id="fallback">
+    <div>تعذر فتح المنصة داخل الصفحة على هذا المتصفح.</div>
+    <a id="directLink" href="#" target="_top">افتح Verimed مباشرة</a>
+  </div>
+
+  <script>
+    (function () {
+      var EXEC = window.VERIMED_API || 'https://script.google.com/macros/s/AKfycbz3mHc5Am82iLeSYIT_OAeVEaE8LRYUR6HD6G0mP0FL_Mx8uBPFyvST95Mb4pr09cTkpw/exec';
+      var frame = document.getElementById('app');
+      var loaded = false;
+      frame.src = EXEC;
+      document.getElementById('directLink').href = EXEC;
+      frame.addEventListener('load', function () { loaded = true; });
+      setTimeout(function () {
+        if (!loaded) document.getElementById('fallback').style.display = 'flex';
+      }, 20000);
+    })();
+  </script>
 </body>
 </html>
