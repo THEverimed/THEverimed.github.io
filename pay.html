@@ -57,7 +57,7 @@
 
   function msg(icon, title, text, withBtn) {
     view.innerHTML = '<div class="center"><div class="icon">' + icon + '</div><h1>' + esc(title) + '</h1><p class="muted">' + esc(text) + '</p>' +
-      (withBtn ? '<a class="btn" href="https://verimed.app/#/account">ارجع لـ Verimed</a>' : '') + '</div>';
+      (withBtn ? '<a class="btn" href="https://verimed.app/#/account">الرجوع للمنصة</a>' : '') + '</div>';
   }
 
   if (!API) return msg('⚠️', 'خطأ في الإعداد', 'ملف config.js ناقص', false);
