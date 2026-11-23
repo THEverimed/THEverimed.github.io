@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Verimed — الدفع</title>
+  <meta name="theme-color" content="#2E7D7B">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.15.0/moyasar.css">
+  <script src="https://cdn.moyasar.com/mpf/1.15.0/moyasar.js"></script>
+  <script src="config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --p: #2E7D7B; --ink: #132026; --muted: #5B6B72; --line: #E3E8EA; --bg: #F6F7F7; --ok: #1E8E5A; --bad: #C0392B; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font-family: Tajawal, system-ui, sans-serif;
+      display: flex; align-items: flex-start; justify-content: center; padding: 28px 16px 60px; }
+    .card { width: 100%; max-width: 440px; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 26px 22px; box-shadow: 0 10px 30px rgba(19,32,38,.06); }
+    .brand { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 20px; color: var(--p); margin-bottom: 18px; }
+    .brand img { width: 30px; height: 30px; }
+    .sum { background: #F1F7F7; border-radius: 14px; padding: 14px 16px; margin-bottom: 18px; }
+    .row { display: flex; justify-content: space-between; align-items: center; font-size: 15px; margin: 4px 0; }
+    .amount { font-size: 26px; font-weight: 800; color: var(--p); }
+    .muted { color: var(--muted); font-size: 13px; }
+    .center { text-align: center; }
+    .icon { font-size: 46px; margin: 8px 0; }
+    h1 { font-size: 21px; margin: 6px 0 8px; }
+    .btn { display: inline-block; background: var(--p); color: #fff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-top: 16px; }
+    .secure { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; }
+    .mysr-form { direction: ltr; }
+    .spin { width: 34px; height: 34px; border: 3px solid var(--line); border-top-color: var(--p); border-radius: 50%; animation: s 1s linear infinite; margin: 20px auto; }
+    @keyframes s { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand"><img src="favicon.svg" alt="">Verimed</div>
+    <div id="view"><div class="spin"></div><p class="center muted">جاري التحميل…</p></div>
+  </div>
+
+<script>
+(function () {
+  var API = window.VERIMED_API;
+  var view = document.getElementById('view');
+  var q = new URLSearchParams(location.search);
+  var intentId = q.get('i') || '';
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+  function api(action, payload) {
+    return fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: action, payload: payload }) })
+      .then(function (r) { return r.json(); })
+      .catch(function () { return { ok: false, error: 'تعذر الاتصال — تأكدي من الإنترنت وحدّثي الصفحة' }; });
+  }
+
+  function msg(icon, title, text, withBtn) {
+    view.innerHTML = '<div class="center"><div class="icon">' + icon + '</div><h1>' + esc(title) + '</h1><p class="muted">' + esc(text) + '</p>' +
+      (withBtn ? '<a class="btn" href="https://verimed.app/#/account">ارجع لـ Verimed</a>' : '') + '</div>';
+  }
+
+  if (!API) return msg('⚠️', 'خطأ في الإعداد', 'ملف config.js ناقص', false);
+  if (!intentId) return msg('⚠️', 'رابط غير صحيح', 'ارجع لصفحة الباقات واضغط اشترك مرة ثانية', true);
+
+  // ═══ بعد الرجوع من الدفع ═══
+  if (q.get('done') === '1') {
+    var payId = q.get('id') || '';
+    if (!payId) return msg('❌', 'لم تكتمل عملية الدفع', q.get('message') || 'ما انخصم منك شيء — جرّب مرة ثانية', true);
+    view.innerHTML = '<div class="spin"></div><p class="center muted">نتحقق من الدفع… لا تسكّر الصفحة</p>';
+    return api('confirmPayment', { i: intentId, id: payId }).then(function (r) {
+      if (r.ok) {
+        msg('✅', 'تم تفعيل اشتراكك', 'أسئلتك صارت غير محدودة طوال مدة الباقة — بالتوفيق في اختبارك', true);
+        try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      } else if (r.code === 'PAY_FAILED') {
+        msg('❌', 'لم تتم عملية الدفع', r.error || 'جرّب بطاقة ثانية', true);
+      } else {
+        msg('⏳', 'ما قدرنا نتأكد الحين', (r.error || '') + ' — لا تدفع مرة ثانية. لو ما تفعّلت باقتك خلال دقائق تواصل مع الدعم: t.me/Verimed_App_bot', true);
+      }
+    });
+  }
+
+  // ═══ صفحة الدفع ═══
+  api('paymentIntent', { i: intentId }).then(function (r) {
+    if (!r.ok) return msg('⚠️', 'تعذر فتح الدفع', r.error, true);
+    var d = r.data;
+    if (d.paid) return msg('✅', 'هذا الطلب مدفوع مسبقاً', 'باقتك مفعّلة', true);
+
+    view.innerHTML =
+      '<div class="sum">' +
+        '<div class="row"><b>' + esc(d.title || 'اشتراك Verimed') + '</b>' + (d.days ? '<span class="muted">' + d.days + ' يوم</span>' : '') + '</div>' +
+        '<div class="row"><span class="muted">أسئلة غير محدودة</span><span class="amount">' + (d.amount / 100).toFixed(2).replace(/\.00$/, '') + ' <small style="font-size:14px">ر.س</small></span></div>' +
+      '</div>' +
+      '<div class="mysr-form"></div>' +
+      '<div class="secure muted">🔒 الدفع آمن ومشفّر عبر ميسر — بيانات بطاقتك ما توصل لنا</div>' +
+      '<div class="secure muted"><a href="https://eauthenticate.saudibusiness.gov.sa/inquiry" target="_blank" rel="noopener" style="color:var(--ok)">✔ موثّق في المركز السعودي للأعمال — رقم التوثيق 0000346279</a></div>';
+
+    Moyasar.init({
+      element: '.mysr-form',
+      amount: d.amount,
+      currency: 'SAR',
+      description: d.description,
+      publishable_api_key: d.publishableKey,
+      callback_url: d.callbackUrl,
+      methods: ['creditcard'],
+      supported_networks: ['mada', 'visa', 'mastercard'],
+      language: 'ar',
+      metadata: { intent_id: d.intentId }
+    });
+  });
+})();
+</script>
+</body>
+</html>
