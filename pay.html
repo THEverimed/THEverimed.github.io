@@ -92,6 +92,7 @@
         '<div class="row"><span class="muted">أسئلة غير محدودة</span><span class="amount">' + (d.amount / 100).toFixed(2).replace(/\.00$/, '') + ' <small style="font-size:14px">ر.س</small></span></div>' +
       '</div>' +
       '<div class="mysr-form"></div>' +
+      '<div class="secure muted" style="margin-top:12px">بالدفع أنت توافق على <a href="https://verimed.app/#/terms" target="_blank" style="color:var(--p);font-weight:700">الشروط وسياسة الاسترجاع</a></div>' +
       '<div class="secure muted">🔒 الدفع آمن ومشفّر عبر ميسر — بيانات بطاقتك ما توصل لنا</div>' +
       '<div class="secure muted"><a href="https://eauthenticate.saudibusiness.gov.sa/inquiry" target="_blank" rel="noopener" style="color:var(--ok)">✔ موثّق في المركز السعودي للأعمال — رقم التوثيق 0000346279</a></div>';
 
@@ -102,8 +103,13 @@
       description: d.description,
       publishable_api_key: d.publishableKey,
       callback_url: d.callbackUrl,
-      methods: ['creditcard'],
+      methods: ['applepay', 'creditcard'],          // Apple Pay يطلع بس على أجهزة أبل (سفاري)، والباقي يشوفون البطاقة
       supported_networks: ['mada', 'visa', 'mastercard'],
+      apple_pay: {
+        country: 'SA',
+        label: 'Verimed',
+        validate_merchant_url: 'https://api.moyasar.com/v1/applepay/initiate'
+      },
       language: 'ar',
       metadata: { intent_id: d.intentId }
     });
