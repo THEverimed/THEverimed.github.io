@@ -55,7 +55,7 @@
   function api(action, payload) {
     return fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: action, payload: payload }) })
       .then(function (r) { return r.json(); })
-      .catch(function () { return { ok: false, error: 'تعذر الاتصال — تأكدي من الإنترنت وحدّثي الصفحة' }; });
+      .catch(function () { return { ok: false, error: 'تعذر الاتصال — تأكد من الإنترنت وحدّث الصفحة' }; });
   }
 
   function msg(icon, title, text, withBtn) {
