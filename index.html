@@ -11,6 +11,7 @@
   <script src="config.js"></script>
   <style>
     html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #F6F7F7; }
+    /* [إصلاح] 100dvh يخلي الإطار يتكيف مع ظهور الكيبورد في الجوال بدل ما يغطي مربع الكتابة */
     #app { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; border: 0; display: block; }
     #fallback { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; flex-direction: column; gap: 14px;
       font-family: Tajawal, system-ui, sans-serif; color: #132026; text-align: center; padding: 24px; }
@@ -31,13 +32,73 @@
     allow="clipboard-read; clipboard-write; fullscreen; web-share"
     referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
+  <div id="gsiOv" style="display:none;position:fixed;inset:0;z-index:10;background:rgba(19,32,38,.5);align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:#fff;border-radius:18px;padding:22px 18px;max-width:340px;width:100%;text-align:center;font-family:Tahoma,Arial,sans-serif" dir="rtl">
+      <div style="font-weight:bold;font-size:17px;margin-bottom:6px;color:#132026">المتابعة مع Google</div>
+      <div style="font-size:13px;color:#5C6A79;margin-bottom:16px">اضغط الزر واختر حسابك</div>
+      <div id="gsiBtn" style="display:flex;justify-content:center;min-height:44px"></div>
+      <button type="button" onclick="document.getElementById('gsiOv').style.display='none'" style="margin-top:14px;background:none;border:0;color:#5C6A79;font-size:13px;cursor:pointer">إلغاء</button>
+    </div>
+  </div>
+
   <div id="fallback">
     <div>تعذر فتح المنصة داخل الصفحة على هذا المتصفح.</div>
     <a id="directLink" href="#" target="_top">افتح Verimed مباشرة</a>
   </div>
 
   <script>
+    /* جسر التخزين: المنصة داخل إطار، والآيفون يمسح تخزين الإطار لما تطلع من الموقع (فتنتهي الجلسة).
+       هنا نحفظ نسخة في تخزين verimed.app نفسه (يبقى)، ونرجعها للمنصة أول ما تفتح. مفاتيح vm_ بس. */
+    /* ⚡ الدخول بـ Google: زر Google لازم يكون في صفحة verimed.app نفسها (Google ما يسمح فيه داخل إطار Apps Script).
+       المنصة تطلبه ← نعرض نافذة فيها زر Google الرسمي ← نرجع التوكن للمنصة، والخادم يتحقق منه عند Google */
+    var GSI = { src: null, origin: '', loaded: false, cid: '' };
+    function gsiClose() { var o = document.getElementById('gsiOv'); if (o) o.style.display = 'none'; }
+    function gsiOpen(cid) {
+      var o = document.getElementById('gsiOv');
+      o.style.display = 'flex';
+      var draw = function () {
+        if (GSI.cid !== cid) {
+          GSI.cid = cid;
+          google.accounts.id.initialize({ client_id: cid, ux_mode: 'popup', auto_select: false, cancel_on_tap_outside: true,
+            callback: function (resp) { gsiClose(); try { GSI.src.postMessage({ vmAuth: 'cred', credential: resp && resp.credential }, GSI.origin); } catch (x) {} } });
+        }
+        var box = document.getElementById('gsiBtn'); box.innerHTML = '';
+        google.accounts.id.renderButton(box, { theme: 'outline', size: 'large', text: 'continue_with', shape: 'pill', locale: 'ar', width: 280 });
+      };
+      if (GSI.loaded) return draw();
+      var sc = document.createElement('script'); sc.src = 'https://accounts.google.com/gsi/client'; sc.async = true;
+      sc.onload = function () { GSI.loaded = true; draw(); };
+      sc.onerror = function () { gsiClose(); try { GSI.src.postMessage({ vmAuth: 'cred', credential: null }, GSI.origin); } catch (x) {} };
+      document.head.appendChild(sc);
+    }
+    window.addEventListener('message', function (e) {
+      var host = ''; try { host = new URL(e.origin).hostname; } catch (x) {}
+      if (!/(^|\.)googleusercontent\.com$/.test(host)) return;
+      if (e.data && e.data.vmAuth === 'google' && /^[\w.-]+\.apps\.googleusercontent\.com$/.test(String(e.data.cid || ''))) {
+        GSI.src = e.source; GSI.origin = e.origin;
+        try { e.source.postMessage({ vmAuth: 'ack' }, e.origin); } catch (x) {}
+        gsiOpen(e.data.cid); return;
+      }
+      var d = e.data; if (!d || !d.vmStore) return;
+      try {
+        if (d.vmStore === 'hello') {
+          var out = {};
+          for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (/^vm_/.test(k)) out[k] = localStorage.getItem(k); }
+          e.source.postMessage({ vmStore: 'data', data: out }, e.origin);
+        } else if (d.vmStore === 'set' && /^vm_/.test(d.k)) localStorage.setItem(d.k, String(d.v));
+        else if (d.vmStore === 'del' && /^vm_/.test(d.k)) localStorage.removeItem(d.k);
+      } catch (x) {}
+    });
+    // رابط دعوة ?ref=CODE ورابط صفحة #/pricing ← نحفظها في تخزين vm_ والمنصة تقراها أول ما تفتح (عن طريق الجسر)
     (function () {
+      try {
+        var m = /[?&]ref=([A-Za-z0-9]{4,12})/.exec(location.search);
+        if (m) localStorage.setItem('vm_ref', m[1].toUpperCase());
+        if (/^#\/[a-z]+$/.test(location.hash)) localStorage.setItem('vm_go', location.hash);
+      } catch (x) {}
+    })();
+    (function () {
+      // رابط الخادم يُقرأ من config.js — بعد أي نشر جديد بنفس الـ Deployment ما تحتاج تغيّر شي هنا
       var EXEC = window.VERIMED_API || 'https://script.google.com/macros/s/AKfycbz3mHc5Am82iLeSYIT_OAeVEaE8LRYUR6HD6G0mP0FL_Mx8uBPFyvST95Mb4pr09cTkpw/exec';
       var frame = document.getElementById('app');
       var loaded = false;
