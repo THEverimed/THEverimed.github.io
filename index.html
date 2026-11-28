@@ -71,13 +71,37 @@
       sc.onerror = function () { gsiClose(); try { GSI.src.postMessage({ vmAuth: 'cred', credential: null }, GSI.origin); } catch (x) {} };
       document.head.appendChild(sc);
     }
+    /* ⚡ الضغط على «المتابعة مع Google» ← يفتح صفحة حسابات Google على طول (بدون زر ثاني)، وبعد ما يختار حسابه يرجع هنا
+       والتوكن ينحفظ في vm_gcred ← المنصة تاخذه أول ما تفتح وتتحقق منه عند Google في الخادم */
+    function gRand() { var a = new Uint8Array(16); (window.crypto || window.msCrypto).getRandomValues(a); return Array.prototype.map.call(a, function (x) { return ('0' + x.toString(16)).slice(-2); }).join(''); }
+    function gRedirect(cid) {
+      var nonce = gRand(), state = gRand();
+      try { localStorage.setItem('vm_gnonce', nonce + '|' + state); } catch (x) {}
+      location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + [
+        'client_id=' + encodeURIComponent(cid), 'redirect_uri=' + encodeURIComponent(location.origin + '/'),
+        'response_type=id_token', 'scope=' + encodeURIComponent('openid email profile'),
+        'nonce=' + nonce, 'state=' + state, 'prompt=select_account'].join('&');
+    }
+    (function () {   // رجعنا من Google
+      var h = location.hash || '';
+      if (!/(^#|&)(id_token|error)=/.test(h)) return;
+      var q = {}; h.replace(/^#/, '').split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); });
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (x) {}
+      var saved = ''; try { saved = localStorage.getItem('vm_gnonce') || ''; localStorage.removeItem('vm_gnonce'); } catch (x) {}
+      var parts = saved.split('|');
+      if (!q.id_token || q.state !== parts[1]) return;
+      try {
+        var p = JSON.parse(decodeURIComponent(escape(atob(q.id_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))));
+        if (p.nonce !== parts[0]) return;
+        localStorage.setItem('vm_gcred', q.id_token);
+      } catch (x) {}
+    })();
     window.addEventListener('message', function (e) {
       var host = ''; try { host = new URL(e.origin).hostname; } catch (x) {}
       if (!/(^|\.)googleusercontent\.com$/.test(host)) return;
       if (e.data && e.data.vmAuth === 'google' && /^[\w.-]+\.apps\.googleusercontent\.com$/.test(String(e.data.cid || ''))) {
-        GSI.src = e.source; GSI.origin = e.origin;
         try { e.source.postMessage({ vmAuth: 'ack' }, e.origin); } catch (x) {}
-        gsiOpen(e.data.cid); return;
+        gRedirect(e.data.cid); return;
       }
       var d = e.data; if (!d || !d.vmStore) return;
       try {
